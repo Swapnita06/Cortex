@@ -11,12 +11,26 @@
     justify-content: space-around;
     align-items: flex-start; 
     height: 100%; 
-    padding: 30px 0;
+    padding: 25px 0;
 }
 
 .list{
     display: flex;
     flex-direction: column;
-    padding:30px ;
+    height: 100%; 
 }
+
+.list1, .list2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Evenly distribute items within each group */
+  }
+
+  .list1 {
+    flex-grow: 1; /* Allow list1 to grow and take up available space */
+  }
+  
+  .list2 {
+    margin-top: 12rem; /* Add a gap between list1 and list2 */
+  }
 
