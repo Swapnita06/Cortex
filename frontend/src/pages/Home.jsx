@@ -5,6 +5,7 @@ import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 const Home = () => {
   return (
     <>
@@ -28,8 +29,19 @@ const Home = () => {
       </nav>
       </div>
 
+      
       <div className='box2'>
-        <h1>Discover Your Perfect AI Companion </h1>
+      <h1>Discover Your Perfect AI Companion </h1>
+      <h2>Tailored Intelligence for every need.</h2>
+    <div className='boxes'> 
+     <div className='agents'>
+     <FeedOutlinedIcon/>
+     <h3>News Editor</h3>
+     <p>
+Summarize and present the latest news stories in an engaging and informative manner.
+     </p>
+     </div>
+    </div>
       </div>
 
       <div>
