@@ -8,8 +8,8 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 const Home = () => {
   return (
     <>
-    <div>
-        <div>
+    <div className='container'>
+        <div className='box1'>
       <nav>
         <ul className="icon-list">
             <div className='list'>
@@ -28,9 +28,12 @@ const Home = () => {
       </nav>
       </div>
 
-      <div>
+      <div className='box2'>
         <h1>Discover Your Perfect AI Companion </h1>
+      </div>
 
+      <div>
+        <button className='button'>Signup</button>
       </div>
       </div>
     </>

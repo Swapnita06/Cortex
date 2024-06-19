@@ -1,4 +1,5 @@
-.icon-list{
+/*
+/* .icon-list{
     list-style: none;
     display: flex;
    flex-direction: column;
@@ -23,14 +24,129 @@
 .list1, .list2 {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Evenly distribute items within each group */
+    justify-content: space-between; 
   }
 
+  /* .list1 {
+    flex-grow: 1; 
+  }
+  
+  /* .list2 {
+    margin-top: 12rem; 
+  }  */
+
+
+  body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+  }
+  
+  /* .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    width: 100%; 
+    height: 100%;
+    column-gap: 20rem;
+  } */
+
+  .container {
+    display: flex;
+   
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    
+  }
+  
+  
+  .box1, .box2, .box3 {
+    /* flex: 1 0 30%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 12rem;
+  }
+  
+  .box1 nav {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon-list {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    align-items: flex-start; /* Align items to the left */
+    height: 100%; /* Take full height of the parent */
+  }
+  
+  .icon-list li {
+    display: flex;
+    justify-content: space-around;
+    /* align-items: center; */
+    /*width: 100%;  Make li take full width of the ul */
+    padding: 25px 0;
+  }
+  
+  .list {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Take full height of the parent */
+  }
+  
+  .list1, .list2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; 
+  }
+  
   .list1 {
-    flex-grow: 1; /* Allow list1 to grow and take up available space */
+    flex-grow: 1; 
   }
   
   .list2 {
-    margin-top: 12rem; /* Add a gap between list1 and list2 */
+    margin-top: 12rem; 
   }
+  
+    .box2 {
+    text-align: center;
+  }  
+  
+  .box3 {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
 
+  @media (max-width: 900px) {
+    .container {
+      justify-content: space-between; /* Adjust spacing for medium screens */
+    }
+  
+    .box1, .box2, .box3 {
+      margin: 0 2rem; /* Reduce margin for medium screens */
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .container {
+      justify-content: space-between; /* Adjust spacing for small screens */
+    }
+  
+    .box1, .box2, .box3 {
+      margin: 0 1rem; /* Reduce margin for small screens */
+    }
+  }
