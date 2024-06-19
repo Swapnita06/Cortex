@@ -32,7 +32,7 @@ const Home = () => {
       
       <div className='box2'>
       <h1 style={{marginBottom:'5px'}}>Discover Your Perfect AI Companion </h1>
-      <h2>Tailored Intelligence for every need.</h2>
+      <h3>Tailored Intelligence for every need.</h3>
     <div className='boxes'> 
 
      <div className='agents'>
@@ -110,7 +110,7 @@ Summarize and present the latest news stories in an engaging and informative man
     </div>
       </div>
 
-      <div>
+      <div className='box3'>
         <button className='button'>Signup</button>
       </div>
       </div>
