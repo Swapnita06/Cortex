@@ -31,9 +31,10 @@ const Home = () => {
 
       
       <div className='box2'>
-      <h1>Discover Your Perfect AI Companion </h1>
+      <h1 style={{marginBottom:'5px'}}>Discover Your Perfect AI Companion </h1>
       <h2>Tailored Intelligence for every need.</h2>
     <div className='boxes'> 
+
      <div className='agents'>
      <FeedOutlinedIcon/>
      <h3>News Editor</h3>
@@ -41,6 +42,71 @@ const Home = () => {
 Summarize and present the latest news stories in an engaging and informative manner.
      </p>
      </div>
+
+     <div className='agents'>
+     <FeedOutlinedIcon/>
+     <h3>News Editor</h3>
+     <p>
+Summarize and present the latest news stories in an engaging and informative manner.
+     </p>
+     </div>
+
+     <div className='agents'>
+     <FeedOutlinedIcon/>
+     <h3>News Editor</h3>
+     <p>
+Summarize and present the latest news stories in an engaging and informative manner.
+     </p>
+     </div>
+
+     <div className='agents'>
+     <FeedOutlinedIcon/>
+     <h3>News Editor</h3>
+     <p>
+Summarize and present the latest news stories in an engaging and informative manner.
+     </p>
+     </div>
+
+     <div className='agents'>
+     <FeedOutlinedIcon/>
+     <h3>News Editor</h3>
+     <p>
+Summarize and present the latest news stories in an engaging and informative manner.
+     </p>
+     </div>
+
+     <div className='agents'>
+     <FeedOutlinedIcon/>
+     <h3>News Editor</h3>
+     <p>
+Summarize and present the latest news stories in an engaging and informative manner.
+     </p>
+     </div>
+
+     <div className='agents'>
+     <FeedOutlinedIcon/>
+     <h3>News Editor</h3>
+     <p>
+Summarize and present the latest news stories in an engaging and informative manner.
+     </p>
+     </div>
+
+     <div className='agents'>
+     <FeedOutlinedIcon/>
+     <h3>News Editor</h3>
+     <p>
+Summarize and present the latest news stories in an engaging and informative manner.
+     </p>
+     </div>
+
+     <div className='agents'>
+     <FeedOutlinedIcon/>
+     <h3>News Editor</h3>
+     <p>
+Summarize and present the latest news stories in an engaging and informative manner.
+     </p>
+     </div>
+
     </div>
       </div>
 

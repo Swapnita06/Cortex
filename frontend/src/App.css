@@ -92,7 +92,7 @@
     justify-content: space-around;
     /* align-items: center; */
     /*width: 100%;  Make li take full width of the ul */
-    padding: 25px 0;
+    padding: 20px 10px;
   }
   
   .list {
@@ -112,7 +112,7 @@
   }
   
   .list2 {
-    margin-top: 12rem; 
+    margin-top: 10rem; 
   }
   
     .box2 {
@@ -120,25 +120,38 @@
     flex-direction: column;
   justify-content: space-around;
   margin-top: 0;
+  margin-left: 2rem;
   }  
 
-
+.boxes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
   .agents{
      border: 1px solid black;
  border-radius: 1rem;
-    width: 200px;
-height: 200px;
+    /* width: 200px; */
+    width: calc(33.33% - 3.3rem);
+height: 150px;
+color: white;
+background-color: black;
+text-align:left;
+padding: 1.1rem;
+  margin: 7px;
   }
   
   .box3 {
     display: flex;
     justify-content: center;
      align-items: center; 
+     
   }
   
   .button {
     padding: 10px 20px;
     font-size: 16px;
+    margin-top: 2rem;
   }
   
 
@@ -150,6 +163,15 @@ height: 200px;
     .box1, .box2, .box3 {
       margin: 0 2rem; /* Reduce margin for medium screens */
     }
+    .button{
+        padding: 5px 10px;
+        margin-top: 3rem;
+
+    }
+    .agents{
+        height: 120px;
+        
+    }
   }
   
   @media (max-width: 600px) {
@@ -159,5 +181,10 @@ height: 200px;
   
     .box1, .box2, .box3 {
       margin: 0 1rem; /* Reduce margin for small screens */
+    }
+    .button{
+        padding: 5px 10px;
+        margin-top: 3rem;
+
     }
   }
