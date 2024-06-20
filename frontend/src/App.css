@@ -56,6 +56,7 @@
 
   .container {
     display: flex;
+    /* flex-wrap: wrap; */
     position: relative;
     justify-content: space-around;
     width: 100%;
@@ -69,7 +70,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    /* flex: 1 1 30%; */
     margin: 0 12rem;
+    /* margin: 1rem; */
   }
   
   .box1 nav {
@@ -125,6 +128,7 @@
   justify-content: space-around;
   margin-top: 0;
   margin-left: 2rem;
+  /* text-align: center; */
   }  
 
   .box2 h1,h3{
@@ -161,7 +165,8 @@ padding: 1.1rem;
   .box3 {
     position: absolute;
     top: 1rem;
-    right: -10rem;
+    right: -10rem; 
+    
   }
   
   .button {
@@ -180,6 +185,8 @@ padding: 1.1rem;
   
     .box1, .box2, .box3 {
       margin: 0 2rem; /* Reduce margin for medium screens */
+     /* flex: 1 1 45%; /* Adjust width for medium screens 
+        margin: 0.5rem;  */
     }
     .button{
         padding: 5px 10px;
@@ -193,6 +200,17 @@ padding: 1.1rem;
     .box2 h1,h3{
         text-align: center;
     }
+
+    .box3 {
+      position: absolute;
+      
+    }
+
+    /* .box3 {
+      position: static; /* Remove absolute positioning 
+      margin-top: 2rem;
+      text-align: center; 
+  } */
   }
   
   @media (max-width: 600px) {
@@ -201,7 +219,9 @@ padding: 1.1rem;
     }
   
     .box1, .box2, .box3 {
-      margin: 0 1rem; /* Reduce margin for small screens */
+     margin: 0 1rem; 
+     /* flex: 1 1 90%; 
+     margin: 0.5rem; */
     }
 
     .button{
@@ -212,4 +232,13 @@ padding: 1.1rem;
     .box2 h1,h3{
         text-align: center;
     }
+    .box3 {
+      position: absolute;
+      
+    }
+    /* .box3 {
+      position: static; 
+      margin-top: 2rem;
+      text-align: center; 
+  } */
   }
