@@ -100,9 +100,13 @@ background-color: black;
 text-align:left;
 padding: 1.1rem;
 margin: 7px;
-
-
+transition: background-color 0.3s ease;
   }
+
+  .agents:hover {
+    background-color: rgba(45, 42, 42, 0.932); 
+    cursor: pointer;
+}
  
 
   .box3 {
@@ -120,7 +124,9 @@ margin: 7px;
     color: white;
   }
   
-
+  .blurred {
+    filter: blur(10px);
+  }
   @media (max-width: 900px) {
     .container {
       justify-content: space-between; 
