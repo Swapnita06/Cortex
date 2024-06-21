@@ -1,13 +1,25 @@
-
-body {
+.home {
   height: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center; 
   align-items: center; 
-  background: rgb(32,16,52);
-background: linear-gradient(90deg, rgba(32,16,52,1) 0%, rgba(91,21,26,1) 100%);
+  background: linear-gradient(
+    217deg,
+    rgba(176, 28, 82, 0.8),  /* Purple */
+    rgba(0, 0, 0, 0.7) 70.71%  /* Black */
+  ),
+  linear-gradient(
+    127deg,
+    rgb(51, 0, 102),    /* Dark Purple */
+    rgba(51, 255, 180, 0.8) 70.71%  /* Pink */
+  ),
+  linear-gradient(
+    336deg,
+    rgba(51, 102, 204, 0.8),  /* Blue */
+    rgba(102, 240, 255, 0.8) 70.71%  /* Light Blue */
+  );
 }
 
 .container {
@@ -16,7 +28,7 @@ background: linear-gradient(90deg, rgba(32,16,52,1) 0%, rgba(91,21,26,1) 100%);
   justify-content: space-around;
   width: 100%;
   height: 100%;
-  
+  margin-left: -150px;
 }
 
 
@@ -112,7 +124,7 @@ height: 130px;
 color: white;
 background-color: black;
 text-align:left;
-padding: 1.1rem;
+padding: 1.5rem;
 margin: 7px;
 transition: background-color 0.3s ease;
 }
@@ -120,6 +132,12 @@ transition: background-color 0.3s ease;
 .agents:hover {
   background-color: rgba(45, 42, 42, 0.932); 
   cursor: pointer;
+}
+
+.agent-checkbox {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
 

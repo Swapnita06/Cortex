@@ -1,12 +1,8 @@
-/* 
+
   body, html {
     height: 100%;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    background: rgb(32,16,52);
-background: linear-gradient(90deg, rgba(32,16,52,1) 0%, rgba(91,21,26,1) 100%);
+
   }
-   */
+  

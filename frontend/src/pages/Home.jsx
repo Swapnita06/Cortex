@@ -96,22 +96,32 @@ const Home = () => {
     });
   };
 
+  const getAgentIcon = (modelName) => {
+    switch (modelName.toLowerCase()) {
+      case 'coder':
+        return <AddCircleOutlineIcon style={{ color: 'white' }} />;
+      case 'product_manager':
+        return <GroupAddOutlinedIcon style={{ color: 'white' }} />;
+      case 'scientist':
+        return <HomeOutlinedIcon style={{ color: 'white' }} />;
+      case 'doctor':
+        return <ChatOutlinedIcon style={{ color: 'white' }} />;
+      // Add cases for other models as needed
+      default:
+        return null;
+    }
+  };
+
   return (
-    <>
+    <div className='home'>
       <div className="container">
         <div className="box1">
           <nav>
             <ul className="icon-list">
               <div className="list">
-                <div className="list1" style={{color:"gray"}}>
+                <div className="list1" style={{ color: "gray" }}>
                   <Tooltip title="Home">
-                    <li><HomeOutlinedIcon /></li>
-                  </Tooltip>
-                  <Tooltip title="Help">
-                    <li><HelpOutlineRoundedIcon /></li>
-                  </Tooltip>
-                  <Tooltip title="History">
-                    <li><HistoryRoundedIcon /></li>
+                    <li><HomeOutlinedIcon style={{ width: "40px" }} /></li>
                   </Tooltip>
                   <Tooltip title="Create New Agent">
                     <li onClick={() => handleOpen({ name: '', description: '', goal: '' }, true)}><AddCircleOutlineIcon /></li>
@@ -123,7 +133,7 @@ const Home = () => {
                     <li onClick={handleChat}><ChatOutlinedIcon /></li>
                   </Tooltip>
                 </div>
-                <div className="list2" style={{color:"gray"}}>
+                <div className="list2" style={{ color: "gray" }}>
                   <Tooltip title="Announcements">
                     <li><AnnouncementOutlinedIcon /></li>
                   </Tooltip>
@@ -136,12 +146,12 @@ const Home = () => {
           </nav>
         </div>
 
-        <div className="box2">
-          <h1 className="main-title" style={{fontFamily:"Poppins"}}>Discover Your Perfect AI Companion</h1>
-          <h3 className="sub-title">Tailored Intelligence for every need.</h3>
-          <div className="boxes">
+        <div className="box2" style={{ marginTop: "20px" }}>
+          <h1 className="main-title" style={{ fontFamily: "Poppins", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
+          <h3 className="sub-title" style={{ fontFamily: "Poppins", fontWeight: "400", color: "white" }}>Tailored Intelligence for every need.</h3>
+          <div className="boxes" style={{ marginTop: "50px" }}>
             {models.map((model, index) => (
-              <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)}>
+              <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)} >
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -151,9 +161,14 @@ const Home = () => {
                     />
                   }
                   label={
-                    <div className="agent-details">
-                      <h3>{model.name}</h3>
-                      <p>{model.description}</p>
+                    <div className="agent-details" style={{marginLeft:"-30px"}}>
+                      <div className="agent-icon">
+                        {getAgentIcon(model.name)} {/* Function to get corresponding icon */}
+                      </div>
+                      <div className="agent-text" style={{marginTop:"-15px",width:"200px"}}>
+                        <h3 style={{ color: 'white',fontFamily:"Montserrat",fontWeight:"300" }}>{model.name}</h3>
+                        <p style={{ color: '#d0d0d0', marginTop:"-3px",fontFamily:"Montserrat",fontWeight:"150" }}>{model.description}</p>
+                      </div>
                     </div>
                   }
                 />
@@ -283,7 +298,7 @@ const Home = () => {
           </Box>
         </Box>
       </Modal>
-    </>
+    </div>
   );
 };
 
