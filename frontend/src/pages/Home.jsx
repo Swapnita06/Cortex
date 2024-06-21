@@ -1,4 +1,3 @@
-// Home.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
@@ -11,15 +10,21 @@ import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import { TextField, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import './Home.css';
 
 const Home = () => {
   const [open, setOpen] = useState(false);
   const [currentAgent, setCurrentAgent] = useState({ name: '', description: '', goal: '' });
-  const [models, setModels] = useState({ predefined_models: [], custom_models: [] });
-  const [isCreating, setIsCreating] = useState(false); // New state to check if creating a new agent
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [models, setModels] = useState([]);
+  const [isCreating, setIsCreating] = useState(false);
+  const [selectedModels, setSelectedModels] = useState([]);
+  const [isGroupChat, setIsGroupChat] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchModels();
@@ -28,7 +33,8 @@ const Home = () => {
   const fetchModels = () => {
     axios.get('http://localhost:5000/models')
       .then(response => {
-        setModels(response.data);
+        const allModels = [...response.data.predefined_models, ...response.data.custom_models];
+        setModels(allModels);
       })
       .catch(error => {
         console.error('There was an error fetching the models!', error);
@@ -64,49 +70,96 @@ const Home = () => {
   };
 
   const handleChat = () => {
-    navigate(`/chat/${currentAgent.name}`);
+    if (isGroupChat) {
+      if (selectedModels.length === 0) {
+        alert('Please select at least one model for group chat.');
+        return;
+      }
+      const selectedModelNames = selectedModels.join(',');
+      navigate(`/group-chat/${selectedModelNames}`);
+    } else {
+      navigate(`/chat/${currentAgent.name}`);
+    }
     setOpen(false);
+  };
+
+  const handleModelSelection = (modelName) => {
+    setSelectedModels((prevSelectedModels) => {
+      if (prevSelectedModels.includes(modelName)) {
+        return prevSelectedModels.filter((name) => name !== modelName);
+      } else if (prevSelectedModels.length < 3) {
+        return [...prevSelectedModels, modelName];
+      } else {
+        alert('You can select up to 3 models for group chat.');
+        return prevSelectedModels;
+      }
+    });
   };
 
   return (
     <>
-      <div className='container'>
-        <div className='box1'>
+      <div className="container">
+        <div className="box1">
           <nav>
             <ul className="icon-list">
-              <div className='list'>
-                <div className='list1'>
-                  <li><HomeOutlinedIcon /></li>
-                  <li><HelpOutlineRoundedIcon /></li>
-                  <li><HistoryRoundedIcon /></li>
-                  <li><GroupsOutlinedIcon /></li>
+              <div className="list">
+                <div className="list1" style={{color:"gray"}}>
+                  <Tooltip title="Home">
+                    <li><HomeOutlinedIcon /></li>
+                  </Tooltip>
+                  <Tooltip title="Help">
+                    <li><HelpOutlineRoundedIcon /></li>
+                  </Tooltip>
+                  <Tooltip title="History">
+                    <li><HistoryRoundedIcon /></li>
+                  </Tooltip>
+                  <Tooltip title="Create New Agent">
+                    <li onClick={() => handleOpen({ name: '', description: '', goal: '' }, true)}><AddCircleOutlineIcon /></li>
+                  </Tooltip>
+                  <Tooltip title="Group Chat">
+                    <li onClick={() => setIsGroupChat(!isGroupChat)}><GroupAddOutlinedIcon /></li>
+                  </Tooltip>
+                  <Tooltip title={isGroupChat ? 'Start Group Chat' : 'Chat'}>
+                    <li onClick={handleChat}><ChatOutlinedIcon /></li>
+                  </Tooltip>
                 </div>
-                <div className='list2'>
-                  <li><AnnouncementOutlinedIcon /></li>
-                  <li><AccountCircleOutlinedIcon /></li>
+                <div className="list2" style={{color:"gray"}}>
+                  <Tooltip title="Announcements">
+                    <li><AnnouncementOutlinedIcon /></li>
+                  </Tooltip>
+                  <Tooltip title="Account">
+                    <li><AccountCircleOutlinedIcon /></li>
+                  </Tooltip>
                 </div>
               </div>
             </ul>
           </nav>
         </div>
 
-        <div className='box2'>
-          <h1 style={{ marginBottom: '5px' }}>Discover Your Perfect AI Companion </h1>
-          <h3>Tailored Intelligence for every need.</h3>
-          <div className='boxes'>
-            {models.predefined_models.map((model, index) => (
-              <div key={index} className='agents' onClick={() => handleOpen(model)}>
-                <h3>{model.name}</h3>
-                <p>{model.description}</p>
+        <div className="box2">
+          <h1 className="main-title" style={{fontFamily:"Poppins"}}>Discover Your Perfect AI Companion</h1>
+          <h3 className="sub-title">Tailored Intelligence for every need.</h3>
+          <div className="boxes">
+            {models.map((model, index) => (
+              <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={selectedModels.includes(model.name)}
+                      onChange={() => handleModelSelection(model.name)}
+                      disabled={!isGroupChat && selectedModels.length > 0}
+                    />
+                  }
+                  label={
+                    <div className="agent-details">
+                      <h3>{model.name}</h3>
+                      <p>{model.description}</p>
+                    </div>
+                  }
+                />
               </div>
             ))}
           </div>
-        </div>
-
-        <div className='box3'>
-          <Button variant="contained" onClick={() => handleOpen({ name: '', description: '', goal: '' }, true)}>
-            Create New Agent
-          </Button>
         </div>
       </div>
 
