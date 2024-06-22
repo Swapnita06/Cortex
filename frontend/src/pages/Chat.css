@@ -5,21 +5,8 @@
 }
 
 .single{
-  background: linear-gradient(
-    217deg,
-    rgba(176, 28, 82, 0.8),  /* Purple */
-    rgba(0, 0, 0, 0.7) 70.71%  /* Black */
-  ),
-  linear-gradient(
-    127deg,
-    rgb(51, 0, 102),    /* Dark Purple */
-    rgba(51, 255, 180, 0.8) 70.71%  /* Pink */
-  ),
-  linear-gradient(
-    336deg,
-    rgba(51, 102, 204, 0.8),  /* Blue */
-    rgba(102, 240, 255, 0.8) 70.71%  /* Light Blue */
-  );
+  background: url('./background.svg') no-repeat center center fixed;
+  background-size: cover;
 }
 
 .send-button{
