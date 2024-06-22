@@ -42,7 +42,7 @@ const Chat = () => {
         gutterBottom
         style={{
           textAlign: 'center',
-          paddingTop: '20px',
+          paddingTop: '30px',
           fontFamily: 'Manrope',
           fontWeight: '400',
           color: 'white',
@@ -99,7 +99,7 @@ const Chat = () => {
       </Box>
 
       {/* Message input and send button */}
-      <Box className="chat-container" sx={{ display: 'flex', marginLeft: '20%' }}>
+      <Box className="chat-container" sx={{ display: 'flex', marginLeft: '19%' }}>
         <TextField
           fullWidth
           placeholder="Type your message"
@@ -137,10 +137,10 @@ const Chat = () => {
           }}
         />
         <Button
-          variant="contained"
+          
           className="send-button"
           onClick={handleSendMessage}
-          sx={{ bgcolor: 'black', marginLeft: '-80px', marginTop: '67px' }}
+          sx={{ bgcolor: 'transparent', marginLeft: '-80px', marginTop: '67px',color:"white"}}
         >
           <SendIcon />
         </Button>
