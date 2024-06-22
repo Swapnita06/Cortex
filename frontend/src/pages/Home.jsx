@@ -133,7 +133,7 @@ const Home = () => {
                     <li onClick={handleChat}><ChatOutlinedIcon /></li>
                   </Tooltip>
                 </div>
-                <div className="list2" style={{ color: "gray" }}>
+                <div className="list2" style={{ color: "gray", marginTop:"170px" }}>
                   <Tooltip title="Announcements">
                     <li><AnnouncementOutlinedIcon /></li>
                   </Tooltip>
