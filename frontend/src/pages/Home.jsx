@@ -237,7 +237,7 @@ const Home = () => {
                 color: 'white',
               },
               '& .Mui-disabled': {
-      color: 'white !important',  // Ensures the text color is green when disabled
+      color: 'white !important',  
       WebkitTextFillColor: 'white !important',  // Ensures compatibility across browsers
     }
             }}
@@ -273,7 +273,7 @@ const Home = () => {
                 color: 'white',
               },
               '& .Mui-disabled': {
-      color: 'white !important',  // Ensures the text color is green when disabled
+      color: 'white !important',  
       WebkitTextFillColor: 'white !important',  // Ensures compatibility across browsers
     }
             }}
@@ -317,8 +317,7 @@ const Home = () => {
 
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
-              variant="contained"
-              sx={{ mt: 2,bgcolor:"#0C0C0CB2", border:"1px solid orange", width:"120px", borderRadius:"10px" }}
+              sx={{ mt: 2,bgcolor:"#0C0C0CB2", border:"1px solid orange", width:"120px", borderRadius:"10px",color:"white" }}
               onClick={isCreating ? handleCreate : handleChat}
             >
               {isCreating ? 'Create' : 'Chat'}

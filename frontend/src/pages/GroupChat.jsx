@@ -55,7 +55,7 @@ const GroupChat = () => {
                 color: 'white',
                 padding: '10px',
                 maxWidth: '70%',
-                alignSelf: 'flex-start',
+                alignSelf: 'flex-end',
               }}
             >
               <Typography variant="body1">{messageData.userMessage}</Typography>
@@ -120,10 +120,10 @@ const GroupChat = () => {
           }}
         />
         <Button
-          variant="contained"
+          
           className="send-button"
           onClick={handleSendMessage}
-          sx={{ bgcolor: 'black', marginLeft: '-80px', marginTop: '27px' }}
+          sx={{ bgcolor: 'black', marginLeft: '-80px', marginTop: '27px',color:"white" }}
         >
           <SendIcon />
         </Button>
