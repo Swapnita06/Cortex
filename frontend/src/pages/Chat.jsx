@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import ReactMarkdown from 'react-markdown';
 import './Chat.css'; // Import the CSS file
 
 const Chat = () => {
@@ -85,13 +86,13 @@ const Chat = () => {
                 background:
                   'linear-gradient(0deg, #7F7F7F 0%, #7F7F7F 100%), rgba(57, 56, 56, 0.50)',
                 mixBlendMode: 'color-dodge',
-                width: '100%',
+                width: '80%',
                 padding: '15px',
                 fontFamily: 'Manrope',
                 color: 'white',
               }}
             >
-              <Typography variant="body1">{messageData.modelResponse}</Typography>
+              <ReactMarkdown>{messageData.modelResponse}</ReactMarkdown>
             </Box>
           </React.Fragment>
         ))}
@@ -114,7 +115,7 @@ const Chat = () => {
               color: 'white',
             },
             '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'pink',
+              borderColor: 'orange',
               borderRadius: '10px',
             },
             '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
@@ -132,14 +133,14 @@ const Chat = () => {
             '&::placeholder': {
               color: 'yellow',
             },
-            marginTop: '20px',
+            marginTop: '60px', width:"920px"
           }}
         />
         <Button
           variant="contained"
           className="send-button"
           onClick={handleSendMessage}
-          sx={{ bgcolor: 'black', marginLeft: '-80px', marginTop: '27px' }}
+          sx={{ bgcolor: 'black', marginLeft: '-80px', marginTop: '67px' }}
         >
           <SendIcon />
         </Button>

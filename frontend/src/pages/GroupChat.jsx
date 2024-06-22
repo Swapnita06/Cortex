@@ -98,7 +98,7 @@ const GroupChat = () => {
               color: 'white',
             },
             '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'pink',
+              borderColor: 'orange',
               borderRadius: '10px',
             },
             '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {

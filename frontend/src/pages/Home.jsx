@@ -318,7 +318,7 @@ const Home = () => {
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               variant="contained"
-              sx={{ mt: 2 }}
+              sx={{ mt: 2,bgcolor:"#0C0C0CB2", border:"1px solid orange", width:"120px", borderRadius:"10px" }}
               onClick={isCreating ? handleCreate : handleChat}
             >
               {isCreating ? 'Create' : 'Chat'}
