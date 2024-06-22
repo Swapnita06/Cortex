@@ -139,24 +139,24 @@ const Home = () => {
             <ul className="icon-list">
               <div className="list">
                 <div className="list1" style={{ color: "gray",position:"fixed" }}>
-                  <Tooltip title="Home">
-                    <li><HomeOutlinedIcon style={{ width: "40px" }} /></li>
+                  <Tooltip title="Home" placement="right">
+                    <li><HomeOutlinedIcon style={{ width: "40px" }}  /></li>
                   </Tooltip>
-                  <Tooltip title="Create New Agent">
+                  <Tooltip title="Create New Agent" placement="right">
                     <li onClick={() => handleOpen({ name: '', description: '', goal: '' }, true)}><AddCircleOutlineIcon /></li>
                   </Tooltip>
-                  <Tooltip title="Group Chat">
+                  <Tooltip title="Group Chat" placement="right">
                     <li onClick={() => setIsGroupChat(!isGroupChat)}><GroupAddOutlinedIcon /></li>
                   </Tooltip>
-                  <Tooltip title={isGroupChat ? 'Start Group Chat' : 'Chat'}>
+                  <Tooltip title={isGroupChat ? 'Start Group Chat' : 'Chat'} placement="right">
                     <li onClick={handleChat}><ChatOutlinedIcon /></li>
                   </Tooltip>
                 </div>
                 <div className="list2" style={{ color: "gray", marginTop:"570px",position:"fixed"  }}>
-                  <Tooltip title="Announcements">
+                  <Tooltip title="Announcements" placement="right">
                     <li><AnnouncementOutlinedIcon /></li>
                   </Tooltip>
-                  <Tooltip title="Account">
+                  <Tooltip title="Account" placement="right">
                     <li><AccountCircleOutlinedIcon /></li>
                   </Tooltip>
                 </div>
