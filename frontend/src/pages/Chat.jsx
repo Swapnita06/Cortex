@@ -32,7 +32,7 @@ const Chat = () => {
 
   return (
     <div className='single'>
-      <Typography variant="h4" gutterBottom style={{textAlign:"center",paddingTop:"20px",fontFamily:"Manrope", fontWeight:"600"}}>Chat with {modelName}</Typography>
+      <Typography variant="h4" gutterBottom style={{textAlign:"center",paddingTop:"20px",fontFamily:"Manrope", fontWeight:"400",color:"white"}}>Chat with {modelName}</Typography>
       
       {/* <Tooltip title="Home" placement="right">
             <HomeIcon style={{ width: "140px", scale:"1.6",color:"gray" }}  />
