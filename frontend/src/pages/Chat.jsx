@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { TextField, Button, Box, Typography } from '@mui/material';
@@ -12,6 +12,23 @@ const Chat = () => {
   const [error, setError] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
 
+  useEffect(() => {
+    // Fetch chat history or any initial data on component mount
+    fetchChatHistory();
+  }, []);
+
+  const fetchChatHistory = () => {
+    // Implement fetching chat history if needed
+    // Example:
+    // axios.get(`http://localhost:5000/chat_history/${modelName}`)
+    //   .then(response => {
+    //     setChatHistory(response.data.chatHistory);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error fetching chat history:', error);
+    //   });
+  };
+
   const handleSendMessage = () => {
     if (message.trim() === '') {
       setError('Message cannot be empty.');
@@ -19,7 +36,7 @@ const Chat = () => {
     }
 
     axios
-      .post(`http://localhost:5000/single_chat/${modelName.toLowerCase()}`, { message })
+      .post(`http://localhost:5000/single_chat/${modelName.replace(/\s+/g, '_').toLowerCase()}`, { message })
       .then((response) => {
         console.log('Chat response:', response.data);
         const newMessage = {
@@ -35,6 +52,10 @@ const Chat = () => {
       });
   };
 
+  const formatModelNameForDisplay = (name) => {
+    return name.replace(/_/g, ' '); // Replace underscores with spaces
+  };
+
   return (
     <div className='single'>
       <Typography
@@ -48,7 +69,7 @@ const Chat = () => {
           color: 'white',
         }}
       >
-        Chat with {modelName}
+        Chat with {formatModelNameForDisplay(modelName)}
       </Typography>
 
       {/* Chat history */}
@@ -137,10 +158,9 @@ const Chat = () => {
           }}
         />
         <Button
-          
           className="send-button"
           onClick={handleSendMessage}
-          sx={{ bgcolor: 'transparent', marginLeft: '-80px', marginTop: '67px',color:"white"}}
+          sx={{ bgcolor: 'transparent', marginLeft: '-80px', marginTop: '67px', color: "white" }}
         >
           <SendIcon />
         </Button>

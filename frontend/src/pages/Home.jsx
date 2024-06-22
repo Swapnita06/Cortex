@@ -78,19 +78,40 @@ const Home = () => {
     setOpen(false);
   };
 
+  // const handleChat = () => {
+  //   if (isGroupChat) {
+  //     if (selectedModels.length === 0) {
+  //       alert('Please select at least one model for group chat.');
+  //       return;
+  //     }
+  //     const selectedModelNames = selectedModels.join(',');
+  //     navigate(`/group-chat/${selectedModelNames}`);
+  //   } else {
+  //     navigate(`/chat/${currentAgent.name}`);
+  //   }
+  //   setOpen(false);
+  // };
+
   const handleChat = () => {
+    const formatModelName = (name) => {
+      return name.replace(/\s+/g, '_').toLowerCase();
+    };
+  
+    let modelNameToSend = formatModelName(currentAgent.name);
+  
     if (isGroupChat) {
       if (selectedModels.length === 0) {
         alert('Please select at least one model for group chat.');
         return;
       }
-      const selectedModelNames = selectedModels.join(',');
+      const selectedModelNames = selectedModels.map(model => formatModelName(model)).join(',');
       navigate(`/group-chat/${selectedModelNames}`);
     } else {
-      navigate(`/chat/${currentAgent.name}`);
+      navigate(`/chat/${modelNameToSend}`);
     }
     setOpen(false);
   };
+  
 
   const handleModelSelection = (modelName) => {
     setSelectedModels((prevSelectedModels) => {
@@ -173,13 +194,17 @@ const Home = () => {
             {models.map((model, index) => (
               <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)} >
                 <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedModels.includes(model.name)}
-                      onChange={() => handleModelSelection(model.name)}
-                      disabled={!isGroupChat && selectedModels.length > 0}
-                    />
-                  }
+                    control={
+                      <Checkbox
+                        checked={selectedModels.includes(model.name)}
+                        onChange={() => handleModelSelection(model.name)}
+                        disabled={!isGroupChat && selectedModels.length > 0}
+                        sx={{
+                          
+                           top:"53px", left:"220px"
+                        }}
+                      />
+                    }
                   label={
                     <div className="agent-details" style={{marginLeft:"-30px"}}>
                       <div className="agent-icon">

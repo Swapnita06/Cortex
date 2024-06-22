@@ -36,11 +36,14 @@ const GroupChat = () => {
         setError('Failed to send message. Please try again.');
       });
   };
+  const formatModelNameForDisplay = (name) => {
+    return name.replace(/_/g, ' '); // Replace underscores with spaces
+  };
 
   return (
     <div className="single">
-      <Typography variant="h4" gutterBottom style={{ textAlign: 'center', paddingTop: '20px', fontFamily: 'Manrope', fontWeight: '600', color: 'white' }}>
-        Group Chat with {modelNames.replace(',', ', ')}
+      <Typography variant="h4" gutterBottom style={{ textAlign: 'center', paddingTop: '20px', fontFamily: 'Manrope', fontWeight: '400', color: 'white' }}>
+        Group Chat with {formatModelNameForDisplay(modelNames.replace(',', ', '))}
       </Typography>
       
       {/* Chat history */}
