@@ -138,7 +138,7 @@ const Home = () => {
           <nav>
             <ul className="icon-list">
               <div className="list">
-                <div className="list1" style={{ color: "gray" }}>
+                <div className="list1" style={{ color: "gray",position:"fixed" }}>
                   <Tooltip title="Home">
                     <li><HomeOutlinedIcon style={{ width: "40px" }} /></li>
                   </Tooltip>
@@ -152,7 +152,7 @@ const Home = () => {
                     <li onClick={handleChat}><ChatOutlinedIcon /></li>
                   </Tooltip>
                 </div>
-                <div className="list2" style={{ color: "gray", marginTop:"170px" }}>
+                <div className="list2" style={{ color: "gray", marginTop:"570px",position:"fixed"  }}>
                   <Tooltip title="Announcements">
                     <li><AnnouncementOutlinedIcon /></li>
                   </Tooltip>
