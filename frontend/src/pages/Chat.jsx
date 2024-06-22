@@ -41,7 +41,7 @@ const Chat = () => {
         console.log('Chat response:', response.data);
         const newMessage = {
           userMessage: message,
-          modelResponse: response.data.responses,
+          modelResponse: response.data.responses.replace(/TERMINATE/g, ''), // Remove the word "TERMINATE"
         };
         setChatHistory((prev) => [...prev, newMessage]); // Update chat history with user message and model response
         setMessage(''); // Clear message input after sending

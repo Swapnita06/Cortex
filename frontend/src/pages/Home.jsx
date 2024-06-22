@@ -100,6 +100,7 @@ const Home = () => {
     let modelNameToSend = formatModelName(currentAgent.name);
   
     if (isGroupChat) {
+      
       if (selectedModels.length === 0) {
         alert('Please select at least one model for group chat.');
         return;
@@ -114,6 +115,7 @@ const Home = () => {
   
 
   const handleModelSelection = (modelName) => {
+    
     setSelectedModels((prevSelectedModels) => {
       if (prevSelectedModels.includes(modelName)) {
         return prevSelectedModels.filter((name) => name !== modelName);
