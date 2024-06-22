@@ -1,0 +1,15 @@
+.chat-container {
+  max-width: 1000px;
+  width: 1000px;
+  height: 100vh;
+}
+
+.single {
+  background: url('./background.svg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.send-button {
+  height: 40px;
+  background-color: #fff;
+}
