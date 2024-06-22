@@ -5,10 +5,10 @@ Cortex is an advanced AI platform designed to provide users with a variety of pr
 ## Features
 
 ### Predefined AI Agents
-- **Personal Trainer**: Create customized fitness routines and nutrition plans tailored to individual health goals and preferences.
+- **Personal Trainer**: Create customized fitness routines and nutrition plans tailored to individual's health goals and preferences.
 - **Investment Advisor**: Evaluate financial data to offer insightful investment advice and risk assessments.
 - **Scientist**: Provide scientifically proven solutions and strategies through research and analysis.
-- **Writer**: Craft compelling narratives and use words to evoke emotions and transport readers into new worlds.
+- **Writer**: Craft compelling narratives and use words to evoke emotions and transport readers into new worlds with its creativity.
 - **News Editor**: Summarize and present the latest news stories in an engaging and informative manner.
 - **Wellness Consultant**: Provide personalized wellness tips and recommendations based on health data.
 - **Event Coordinator**: Organize and manage events to ensure a seamless and memorable experience.
