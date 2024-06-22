@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { TextField, Button, Box, Typography } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import './Chat.css';  // Import the CSS file
 
 const Chat = () => {
@@ -30,7 +31,7 @@ const Chat = () => {
 
   return (
     <div className='single'>
-      <Typography variant="h4" gutterBottom style={{textAlign:"center",paddingTop:"20px",fontFamily:"Montserrat"}}>Chat with {modelName}</Typography>
+      <Typography variant="h4" gutterBottom style={{textAlign:"center",paddingTop:"20px",fontFamily:"Manrope", fontWeight:"600"}}>Chat with {modelName}</Typography>
     <Box className="chat-container" sx={{display:"flex",marginLeft:"20%"}}>
       
       <Box className="chat-history" >
@@ -44,8 +45,38 @@ const Chat = () => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         className="chat-input"
+        sx={{
+          '& .MuiInputBase-root': {
+            backgroundColor: 'black',
+            color: 'white',
+          },
+          '& .MuiInputBase-input': {
+            color: 'white',
+          },
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'pink', borderRadius:"10px"
+          },
+          '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'pink',
+          },
+          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'pink',
+          },
+          '& .MuiInputLabel-root': {
+            color: 'yellow',
+          },
+          '& .MuiInputLabel-shrink': {
+            color: 'yellow',
+          },
+          '&::placeholder': {
+            color: 'yellow',
+          },
+          marginTop:"590px"
+        }}
       />
-      <Button variant="contained" className="send-button" onClick={handleSendMessage}>Send</Button>
+      <Button variant="contained" className="send-button" onClick={handleSendMessage}
+      sx={{bgcolor:"black",marginLeft:"-80px",marginTop:"597px"}}
+      ><SendIcon/></Button>
       {error && (
         <Typography variant="subtitle2" color="error" className="error-message">{error}</Typography>
       )}
