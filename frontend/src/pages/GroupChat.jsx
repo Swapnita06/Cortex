@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import './GroupChat.css'; // Import the CSS file
 
 const GroupChat = () => {
@@ -63,6 +64,7 @@ const GroupChat = () => {
             >
               <Typography variant="body1">{messageData.userMessage}</Typography>
             </Box>
+            <AccountCircleIcon sx={{ color: 'white', marginLeft: '10px' }} />
             {/* Model responses */}
             {messageData.modelResponses.map((response, idx) => (
               <Box
