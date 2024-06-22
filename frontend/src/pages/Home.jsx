@@ -133,6 +133,7 @@ const Home = () => {
 
   return (
     <div className='home'>
+      <div className='hidden-container'>sorry your device is incompatible...</div>
       <div className="container">
         <div className="box1">
           <nav>

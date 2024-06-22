@@ -176,7 +176,26 @@ transition: background-color 0.3s ease;
  
 }
 
-@media (max-width: 600px) {
+.hidden-container{
+  display: none;
+}
+
+@media(max-width: 1170px) {
+  .hidden-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    font-family: "Manrope";
+    color: white;
+    font-size: 50px;
+  }
+  .container{
+    display: none;
+  }
+}
+/* @media (max-width: 600px) {
   .container {
     justify-content: space-between; 
   }
@@ -199,4 +218,4 @@ transition: background-color 0.3s ease;
     
   }
   
-}
+} */
