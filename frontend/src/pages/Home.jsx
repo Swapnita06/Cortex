@@ -12,7 +12,16 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
+import DrawIcon from '@mui/icons-material/Draw';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import ScienceIcon from '@mui/icons-material/Science';
+import ExploreIcon from '@mui/icons-material/Explore';
+import EventIcon from '@mui/icons-material/Event';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 import { TextField, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
@@ -98,14 +107,24 @@ const Home = () => {
 
   const getAgentIcon = (modelName) => {
     switch (modelName.toLowerCase()) {
-      case 'coder':
-        return <AddCircleOutlineIcon style={{ color: 'white' }} />;
-      case 'product_manager':
-        return <GroupAddOutlinedIcon style={{ color: 'white' }} />;
+      case 'personal trainer':
+        return <FitnessCenterIcon style={{ color: 'white' }} />;
+      case 'investment advisor':
+        return <ShowChartIcon style={{ color: 'white' }} />;
       case 'scientist':
-        return <HomeOutlinedIcon style={{ color: 'white' }} />;
-      case 'doctor':
-        return <ChatOutlinedIcon style={{ color: 'white' }} />;
+        return <ScienceIcon style={{ color: 'white' }} />;
+      case 'writer':
+          return <DrawIcon style={{ color: 'white' }} />;
+      case 'news editor':
+            return <NewspaperIcon style={{ color: 'white' }} />;
+      case 'wellness consultant':
+        return <LocalHospitalIcon style={{ color: 'white' }} />;
+      case 'event coordinator':
+        return <EventIcon style={{ color: 'white' }} />;
+      case 'travel coordinator':
+          return <ExploreIcon style={{ color: 'white' }} />;
+      case 'creative content strategists':
+            return <FaceRetouchingNaturalIcon style={{ color: 'white' }} />;
       // Add cases for other models as needed
       default:
         return null;
@@ -147,8 +166,8 @@ const Home = () => {
         </div>
 
         <div className="box2" style={{ marginTop: "20px" }}>
-          <h1 className="main-title" style={{ fontFamily: "Poppins", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
-          <h3 className="sub-title" style={{ fontFamily: "Poppins", fontWeight: "400", color: "white" }}>Tailored Intelligence for every need.</h3>
+          <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
+          <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Tailored Intelligence for every need.</h3>
           <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>
             {models.map((model, index) => (
               <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)} >
@@ -166,8 +185,8 @@ const Home = () => {
                         {getAgentIcon(model.name)} {/* Function to get corresponding icon */}
                       </div>
                       <div className="agent-text" style={{marginTop:"-15px",width:"200px"}}>
-                        <h3 style={{ color: 'white',fontFamily:"Montserrat",fontWeight:"300" }}>{model.name}</h3>
-                        <p style={{ color: '#d0d0d0', marginTop:"-3px",fontFamily:"Montserrat",fontWeight:"150" }}>{model.description}</p>
+                        <h3 style={{ color: 'white',fontFamily:"Manrope",fontWeight:"300" }}>{model.name}</h3>
+                        <p style={{ color: '#d0d0d0', marginTop:"-3px",fontFamily:"Montserrat",fontWeight:"200" }}>{model.description}</p>
                       </div>
                     </div>
                   }
@@ -186,9 +205,9 @@ const Home = () => {
       >
         <Box sx={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          width: 600, bgcolor: 'black', border: '1px solid gray', boxShadow: 24, p: 4, borderRadius: '5%', padding:"50px"
-        }}>
-          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily:"Montserrat" }}>
+          width: 600, bgcolor: 'black', border: '1px solid gray', boxShadow: 24, p: 4, borderRadius: '5%', padding:"50px",
+          background: "rgba(12, 12, 12, 0.70)", backdropFilter: "blur(75px)"}}>
+          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily:"Manrope" }}>
             Agent Name
           </Typography>
           <TextField
@@ -217,13 +236,14 @@ const Home = () => {
                 color: 'white',
               },
               '& .Mui-disabled': {
-        color: 'white',
-      }
+      color: 'white !important',  // Ensures the text color is green when disabled
+      WebkitTextFillColor: 'white !important',  // Ensures compatibility across browsers
+    }
             }}
             disabled={!isCreating} // Disable input if not creating
           />
 
-          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white' , fontFamily:"Montserrat" }}>
+          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white' , fontFamily:"Manrope" }}>
             Agent Description
           </Typography>
           <TextField
@@ -252,15 +272,16 @@ const Home = () => {
                 color: 'white',
               },
               '& .Mui-disabled': {
-        color: 'white',
-      }
+      color: 'white !important',  // Ensures the text color is green when disabled
+      WebkitTextFillColor: 'white !important',  // Ensures compatibility across browsers
+    }
             }}
             disabled={!isCreating} // Disable input if not creating
           />
 
           {isCreating && (
             <>
-              <Typography variant="subtitle1" sx={{ mt: 2, color: 'white' }}>
+              <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily:"Manrope" }}>
                 Your Goal
               </Typography>
               <TextField

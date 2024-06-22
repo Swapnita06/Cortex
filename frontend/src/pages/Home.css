@@ -101,13 +101,13 @@ margin-left: 2rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  
+  gap: 3px;
 }
 .agents{
    border: 1px solid black;
 border-radius: 1rem;
   width: calc(33.33% - 4.1rem);
-height: 130px;
+height: 200px;
 color: white;
 background-color: black;
 text-align:left;
