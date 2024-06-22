@@ -149,7 +149,7 @@ const Home = () => {
         <div className="box2" style={{ marginTop: "20px" }}>
           <h1 className="main-title" style={{ fontFamily: "Poppins", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
           <h3 className="sub-title" style={{ fontFamily: "Poppins", fontWeight: "400", color: "white" }}>Tailored Intelligence for every need.</h3>
-          <div className="boxes" style={{ marginTop: "50px" }}>
+          <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>
             {models.map((model, index) => (
               <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)} >
                 <FormControlLabel
