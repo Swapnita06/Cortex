@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { TextField, Button, Box, Typography,Tooltip } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import HomeIcon from '@mui/icons-material/Home';
 import './Chat.css';  // Import the CSS file
 
 const Chat = () => {
@@ -32,13 +33,30 @@ const Chat = () => {
   return (
     <div className='single'>
       <Typography variant="h4" gutterBottom style={{textAlign:"center",paddingTop:"20px",fontFamily:"Manrope", fontWeight:"600"}}>Chat with {modelName}</Typography>
-    <Box className="chat-container" sx={{display:"flex",marginLeft:"20%"}}>
       
-      <Box className="chat-history" >
+      {/* <Tooltip title="Home" placement="right">
+            <HomeIcon style={{ width: "140px", scale:"1.6",color:"gray" }}  />
+      </Tooltip> */}
+
+      <Box className="chat-history" 
+     sx={{
+      borderRadius: "24px",
+      background: "linear-gradient(0deg, #7F7F7F 0%, #7F7F7F 100%), rgba(57, 56, 56, 0.50)",
+      mixBlendMode: "color-dodge",
+      width:"800px",
+      marginLeft:"380px",
+      fontFamily:"Manrope",
+      color:"white",
+      padding:"15px"
+    }}>
+    
         {chatHistory.map((msg, index) => (
           <Typography key={index} variant="body1" className="chat-message">{msg}</Typography>
         ))}
       </Box>
+      <Box className="chat-container" sx={{display:"flex",marginLeft:"20%"}}>
+      
+      
       <TextField
         fullWidth
         placeholder="Type your message"
@@ -71,11 +89,11 @@ const Chat = () => {
           '&::placeholder': {
             color: 'yellow',
           },
-          marginTop:"590px"
+          marginTop:"90px"
         }}
       />
       <Button variant="contained" className="send-button" onClick={handleSendMessage}
-      sx={{bgcolor:"black",marginLeft:"-80px",marginTop:"597px"}}
+      sx={{bgcolor:"black",marginLeft:"-80px",marginTop:"97px"}}
       ><SendIcon/></Button>
       {error && (
         <Typography variant="subtitle2" color="error" className="error-message">{error}</Typography>
