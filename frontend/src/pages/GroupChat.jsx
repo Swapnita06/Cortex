@@ -9,7 +9,7 @@ const GroupChat = () => {
   const { modelNames } = useParams(); // Extract modelNames from route parameters
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [responses, setResponses] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]);
 
   const handleSendMessage = () => {
     if (message.trim() === '') {
@@ -19,12 +19,16 @@ const GroupChat = () => {
 
     axios
       .post('http://localhost:5000/group_chat', {
-        model_names: modelNames.split(',').map(name => name.toLowerCase()),
+        model_names: modelNames.split(',').map(name => name.toLowerCase().trim()),
         message,
       })
       .then(response => {
         console.log('Group chat response:', response.data);
-        setResponses([...responses, ...response.data.responses]);
+        const newMessage = {
+          userMessage: message,
+          modelResponses: response.data.responses,
+        };
+        setChatHistory([...chatHistory, newMessage]);
         setMessage(''); // Clear message input after sending
       })
       .catch(error => {
@@ -35,17 +39,50 @@ const GroupChat = () => {
 
   return (
     <div className="single">
-      <Typography variant="h4" gutterBottom style={{ textAlign: 'center', paddingTop: '20px', fontFamily: 'Manrope', fontWeight: '600' }}>
+      <Typography variant="h4" gutterBottom style={{ textAlign: 'center', paddingTop: '20px', fontFamily: 'Manrope', fontWeight: '600', color: 'white' }}>
         Group Chat with {modelNames.replace(',', ', ')}
       </Typography>
+      
+      {/* Chat history */}
+      <Box className="chat-history" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginTop: '20px', gap: '20px', width: '60%', marginLeft: '20%' }}>
+        {chatHistory.map((messageData, index) => (
+          <React.Fragment key={index}>
+            {/* User message */}
+            <Box
+              sx={{
+                borderRadius: '10px',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                color: 'white',
+                padding: '10px',
+                maxWidth: '70%',
+                alignSelf: 'flex-start',
+              }}
+            >
+              <Typography variant="body1">{messageData.userMessage}</Typography>
+            </Box>
+            {/* Model responses */}
+            {messageData.modelResponses.map((response, idx) => (
+              <Box
+                key={idx}
+                sx={{
+                  borderRadius: '24px',
+                  background: 'linear-gradient(0deg, #7F7F7F 0%, #7F7F7F 100%), rgba(57, 56, 56, 0.50)',
+                  mixBlendMode: 'color-dodge',
+                  width: '100%',
+                  padding: '15px',
+                  fontFamily: 'Manrope',
+                  color: 'white',
+                }}
+              >
+                <Typography variant="body1">{response}</Typography>
+              </Box>
+            ))}
+          </React.Fragment>
+        ))}
+      </Box>
+
+      {/* Message input and send button */}
       <Box className="chat-container" sx={{ display: 'flex', marginLeft: '20%' }}>
-        <Box className="chat-history">
-          {responses.map((response, index) => (
-            <Typography key={index} variant="body1" className="chat-message">
-              {response}
-            </Typography>
-          ))}
-        </Box>
         <TextField
           fullWidth
           placeholder="Type your message"
@@ -79,10 +116,15 @@ const GroupChat = () => {
             '&::placeholder': {
               color: 'yellow',
             },
-            marginTop: '590px',
+            marginTop: '20px',
           }}
         />
-        <Button variant="contained" className="send-button" onClick={handleSendMessage} sx={{ bgcolor: 'black', marginLeft: '-80px', marginTop: '597px' }}>
+        <Button
+          variant="contained"
+          className="send-button"
+          onClick={handleSendMessage}
+          sx={{ bgcolor: 'black', marginLeft: '-80px', marginTop: '27px' }}
+        >
           <SendIcon />
         </Button>
         {error && <Typography variant="subtitle2" color="error" className="error-message">{error}</Typography>}
