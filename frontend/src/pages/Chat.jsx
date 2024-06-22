@@ -29,6 +29,7 @@ const Chat = () => {
   };
 
   return (
+    <div className='single'>
     <Box className="chat-container">
       <Typography variant="h4" gutterBottom>Chat with {modelName}</Typography>
       <Box className="chat-history">
@@ -48,6 +49,7 @@ const Chat = () => {
         <Typography variant="subtitle2" color="error" className="error-message">{error}</Typography>
       )}
     </Box>
+    </div>
   );
 };
 

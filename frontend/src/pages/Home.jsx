@@ -186,9 +186,9 @@ const Home = () => {
       >
         <Box sx={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          width: 500, bgcolor: 'black', border: '2px solid #000', boxShadow: 24, p: 4, borderRadius: '10%'
+          width: 600, bgcolor: 'black', border: '1px solid white', boxShadow: 24, p: 4, borderRadius: '5%', padding:"50px"
         }}>
-          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white' }}>
+          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily:"Montserrat" }}>
             Agent Name
           </Typography>
           <TextField
@@ -200,7 +200,7 @@ const Home = () => {
             margin="normal"
             sx={{
               '& .MuiInputBase-root': {
-                backgroundColor: 'gray',
+                backgroundColor: 'black',
                 color: 'white',
                 borderRadius: '15px',
               },
@@ -216,11 +216,14 @@ const Home = () => {
               '& .MuiInputLabel-shrink': {
                 color: 'white',
               },
+              '& .Mui-disabled': {
+        color: 'white',
+      }
             }}
             disabled={!isCreating} // Disable input if not creating
           />
 
-          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white' }}>
+          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white' , fontFamily:"Montserrat" }}>
             Agent Description
           </Typography>
           <TextField
@@ -232,7 +235,7 @@ const Home = () => {
             margin="normal"
             sx={{
               '& .MuiInputBase-root': {
-                backgroundColor: 'gray',
+                backgroundColor: 'black',
                 color: 'white',
                 borderRadius: '15px',
               },
@@ -248,6 +251,9 @@ const Home = () => {
               '& .MuiInputLabel-shrink': {
                 color: 'white',
               },
+              '& .Mui-disabled': {
+        color: 'white',
+      }
             }}
             disabled={!isCreating} // Disable input if not creating
           />
@@ -266,7 +272,7 @@ const Home = () => {
                 margin="normal"
                 sx={{
                   '& .MuiInputBase-root': {
-                    backgroundColor: 'gray',
+                    backgroundColor: 'black',
                     color: 'white',
                     borderRadius: '15px',
                   },

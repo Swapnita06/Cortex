@@ -68,11 +68,12 @@
   display: flex;
   justify-content: space-around;
   padding: 20px 0px;
+  scale: 1.6;
   transition: all 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .icon-list li:hover {
-  transform: scale(1.6); /* Enlarge icon slightly */
+  transform: scale(1.8); /* Enlarge icon slightly */
   color: white; /* Change icon color to white */
   cursor: pointer;
 }
