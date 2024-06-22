@@ -22,3 +22,7 @@
   );
 }
 
+.send-button{
+  height: 50px;
+  background-color: #fff;
+}

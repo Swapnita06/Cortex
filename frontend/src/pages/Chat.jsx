@@ -30,9 +30,10 @@ const Chat = () => {
 
   return (
     <div className='single'>
-    <Box className="chat-container">
-      <Typography variant="h4" gutterBottom>Chat with {modelName}</Typography>
-      <Box className="chat-history">
+      <Typography variant="h4" gutterBottom style={{textAlign:"center",paddingTop:"20px",fontFamily:"Montserrat"}}>Chat with {modelName}</Typography>
+    <Box className="chat-container" sx={{display:"flex",marginLeft:"20%"}}>
+      
+      <Box className="chat-history" >
         {chatHistory.map((msg, index) => (
           <Typography key={index} variant="body1" className="chat-message">{msg}</Typography>
         ))}

@@ -186,7 +186,7 @@ const Home = () => {
       >
         <Box sx={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          width: 600, bgcolor: 'black', border: '1px solid white', boxShadow: 24, p: 4, borderRadius: '5%', padding:"50px"
+          width: 600, bgcolor: 'black', border: '1px solid gray', boxShadow: 24, p: 4, borderRadius: '5%', padding:"50px"
         }}>
           <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily:"Montserrat" }}>
             Agent Name
