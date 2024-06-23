@@ -52,9 +52,25 @@ const GroupChat = () => {
       return;
     }
 
+    // Ensure modelNames is defined and formatted correctly
+    if (!modelNames || typeof modelNames !== 'string') {
+      setError('Invalid model names.');
+      return;
+    }
+
+    console.log("names",modelNames) ;
+    const namesArray = modelNames.split(',')
+    console.log(namesArray)
+    namesArray.map(name => name.toLowerCase().trim());
+
+    if (namesArray.some(name => !name)) {
+      setError('Invalid model names.');
+      return;
+    }
+
     axios
       .post('https://cortex-rnd0.onrender.com/group_chat', {
-        model_names: modelNames.split(',').map(name => name.toLowerCase().trim()),
+        model_names: namesArray,
         message,
       })
       .then(response => {
@@ -63,8 +79,9 @@ const GroupChat = () => {
           userMessage: message,
           modelResponses: response.data.responses.map(response => response.replace(/TERMINATE/g, '')), // Remove the word "TERMINATE"
         };
-        setChatHistory([...chatHistory, newMessage]);
+        setChatHistory(prevChatHistory => [...prevChatHistory, newMessage]);
         setMessage(''); // Clear message input after sending
+        setError(''); // Clear any previous error
       })
       .catch(error => {
         console.error('Error sending message:', error);
@@ -76,7 +93,9 @@ const GroupChat = () => {
     return name.replace(/_/g, ' '); // Replace underscores with spaces
   };
 
-  const getModelIcon = (name) => {
+  const getModelIcon = (name) => {  
+    if(name)
+      {
     switch (name.toLowerCase()) {
       case 'personal_trainer':
         return <FitnessCenterIcon style={{ color: 'white', marginRight: '20px' }} />;
@@ -99,6 +118,7 @@ const GroupChat = () => {
       // Add cases for other models as needed
       default:
         return <AutoAwesomeIcon style={{ color: 'white', marginRight: '20px' }} />;
+    }
     }
   };
 
@@ -170,6 +190,7 @@ const GroupChat = () => {
                 }}
               >
                 {getModelIcon(modelNames.split(',')[idx])}
+                
                 <Box
                   sx={{
                     borderRadius: '24px',
