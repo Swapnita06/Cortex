@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { TextField, Button, Box, Typography } from '@mui/material';
@@ -22,11 +22,17 @@ const Chat = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
+  const chatHistoryRef = useRef(null);
 
   useEffect(() => {
-    // Fetch chat history or any initial data on component mount
     fetchChatHistory();
   }, []);
+
+  useEffect(() => {
+    if (chatHistoryRef.current) {
+      chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
 
   const fetchChatHistory = () => {
     // Implement fetching chat history if needed
@@ -43,11 +49,15 @@ const Chat = () => {
   const handleSendMessage = () => {
     if (message.trim() === '') {
       setError('Message cannot be empty.');
+      // Clear error message after 5 seconds
+      setTimeout(() => {
+        setError('');
+      }, 5000);
       return;
     }
 
     axios
-      .post(`http://localhost:5000/single_chat/${modelName.replace(/\s+/g, '_').toLowerCase()}`, { message })
+      .post(`https://cortex-rnd0.onrender.com/single_chat/${modelName.replace(/\s+/g, '_').toLowerCase()}`, { message })
       .then((response) => {
         console.log('Chat response:', response.data);
         const newMessage = {
@@ -60,6 +70,10 @@ const Chat = () => {
       .catch((error) => {
         console.error('Error sending message:', error);
         setError('Failed to send message. Please try again.');
+        // Clear error message after 5 seconds
+        setTimeout(() => {
+          setError('');
+        }, 3000);
       });
   };
 
@@ -112,6 +126,7 @@ const Chat = () => {
       {/* Chat history */}
       <Box
         className="chat-history"
+        ref={chatHistoryRef}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -120,6 +135,10 @@ const Chat = () => {
           gap: '20px',
           width: '60%',
           marginLeft: '20%',
+          maxHeight: '70vh',
+          overflowY: 'auto',
+          padding: '10px',
+          borderRadius: '10px',
         }}
       >
         {chatHistory.map((messageData, index) => (
@@ -153,7 +172,7 @@ const Chat = () => {
                 width: '100%',
               }}
             >
-               {getModelIcon(modelName)}
+              {getModelIcon(modelName)}
               <Box
                 sx={{
                   borderRadius: '24px',
@@ -168,14 +187,13 @@ const Chat = () => {
               >
                 <ReactMarkdown>{messageData.modelResponse}</ReactMarkdown>
               </Box>
-             
             </Box>
           </React.Fragment>
         ))}
       </Box>
 
       {/* Message input and send button */}
-      <Box className="chat-container" sx={{ display: 'flex', marginLeft: '19%' }}>
+      <Box className="chat-container" sx={{ display: 'flex', marginLeft: '21%', marginTop: '40px', width: '60%' }}>
         <TextField
           fullWidth
           placeholder="Type your message"
@@ -209,13 +227,13 @@ const Chat = () => {
             '&::placeholder': {
               color: 'yellow',
             },
-            marginTop: '60px', width:"920px"
+            marginTop: '-20px'
           }}
         />
         <Button
           className="send-button"
           onClick={handleSendMessage}
-          sx={{ bgcolor: 'transparent', marginLeft: '-80px', marginTop: '67px', color: "white" }}
+          sx={{ bgcolor: 'transparent', marginLeft: '-80px', marginTop: '-13px', color: "white" }}
         >
           <SendIcon />
         </Button>
