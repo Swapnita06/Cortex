@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import autogen
-from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
+from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager, Agent
 
 app = Flask(__name__)
 CORS(app)
@@ -74,6 +74,33 @@ def initiate_group_chat(agents, message):
     user_proxy.initiate_chat(manager, message=message)
     responses = [msg["content"] for msg in groupchat.messages]
     return responses
+
+def custom_speaker_selection_func(last_speaker: Agent, groupchat: autogen.GroupChat, selected_agents: list):
+    """Define a customized speaker selection function.
+    A recommended way is to define a transition for each speaker in the groupchat.
+
+    Returns:
+        Return an `Agent` class or a string from ['auto', 'manual', 'random', 'round_robin'] to select a default method to use.
+    """
+    messages = groupchat.messages
+
+    if len(messages) <= 1:
+        return selected_agents[0]  # Start with the first selected agent
+
+    if last_speaker.name == "User Proxy":
+        return next((agent for agent in selected_agents if agent.name in messages[-2]["content"]), "round_robin")
+
+    elif last_speaker in selected_agents:
+        if "```python" in messages[-1]["content"]:
+            return "round_robin"
+        elif "exitcode: 1" in messages[-1]["content"]:
+            return last_speaker
+        else:
+            return "round_robin"
+
+    else:
+        return "random"
+
 
 # Predefined agents
 agents = {
@@ -176,18 +203,48 @@ def api_group_chat():
     model_names = data.get("model_names")
     message = data.get("message")
 
+    # Retrieve the selected agents based on the provided model names
     selected_agents = [agents.get(name.lower()) or next((m["agent"] for m in custom_models if m["agent"].name.lower() == name.lower()), None) for name in model_names]
     selected_agents = [agent for agent in selected_agents if agent]
 
+    # Ensure at least two valid agents are selected
     if len(selected_agents) < 2:
         return jsonify({"error": "You need to select at least two valid models for a group chat"}), 400
 
     try:
-        responses = initiate_group_chat(selected_agents, message)
+        # Initialize the group chat with the selected agents
+        groupchat = autogen.GroupChat(
+            agents=selected_agents,
+            messages=[],
+            max_round=5,
+            speaker_selection_method=lambda last_speaker, gc: custom_speaker_selection_func(last_speaker, gc, selected_agents)
+        )
+        
+        # Create the GroupChatManager
+        manager = autogen.GroupChatManager(groupchat=groupchat, llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42})
+
+        user_proxy = autogen.UserProxyAgent(
+        name="User_proxy",
+        system_message="A human admin.",
+        code_execution_config={
+            "last_n_messages": 2,
+            "work_dir": "groupchat",
+            "use_docker": False,
+        },  # Please set use_docker=True if docker is available to run the generated code. Using docker is safer than running the generated code directly.
+        human_input_mode="TERMINATE",
+        )
+
+        # Initiate the chat
+        user_proxy.initiate_chat(manager, message=message)
+        
+        # Collect responses directly from the groupchat messages
+        responses = [msg["content"] for msg in groupchat.messages]
         print(responses)
         return jsonify({"responses": responses})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
 
 # Function to remove expired custom models
 def remove_expired_models():
