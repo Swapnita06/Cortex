@@ -64,7 +64,7 @@ def initiate_group_chat(agents, message):
         description="I stand for the user and can run code.",
     )
 
-    groupchat = autogen.GroupChat(agents=[user_proxy] + agents, messages=[], max_round=4)
+    groupchat = autogen.GroupChat(agents=[user_proxy] + agents, messages=[], max_round=6)
     manager = autogen.GroupChatManager(
         groupchat=groupchat,
         llm_config=agents[0].llm_config,  # Assuming all agents have the same llm_config
@@ -184,6 +184,7 @@ def api_group_chat():
 
     try:
         responses = initiate_group_chat(selected_agents, message)
+        print(responses)
         return jsonify({"responses": responses})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
