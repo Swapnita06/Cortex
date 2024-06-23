@@ -56,11 +56,11 @@
   justify-content: space-around;
   padding: 30px 0px;
   scale: 1.6;
-  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  transition: all 0.3s ease; 
 }
 
 .icon-list li:hover {
-  color: white; /* Change icon color to white */
+  color: white; 
   cursor: pointer;
 }
 
@@ -90,18 +90,11 @@
 justify-content: space-around;
 margin-top: 0;
 margin-left: 2rem;
-height: 100vh; /* Full height of the viewport */
-  overflow: hidden; /* Hide overflow to create a fixed header */
+height: 100vh; 
+  overflow: hidden; 
 }  
 
-/* .box2 .fixed-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: inherit;
-  z-index: 1000;
-} */
+
 
 .box2 h1,h3{
  margin-bottom: 5px;
@@ -110,12 +103,12 @@ height: 100vh; /* Full height of the viewport */
 .scrollable-content {
  
   overflow-y: auto;
-  height: calc(100vh - 120px); /* Adjust based on the height of the fixed header */
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  height: calc(100vh - 120px); 
+  -ms-overflow-style: none; 
   scrollbar-width: none;
 }
 .scrollable-content::-webkit-scrollbar {
-  display: none;  /* Safari and Chrome */
+  display: none; 
 }
 
 .boxes{
