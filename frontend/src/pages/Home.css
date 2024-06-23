@@ -90,11 +90,32 @@
 justify-content: space-around;
 margin-top: 0;
 margin-left: 2rem;
-
+height: 100vh; /* Full height of the viewport */
+  overflow: hidden; /* Hide overflow to create a fixed header */
 }  
+
+/* .box2 .fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: inherit;
+  z-index: 1000;
+} */
 
 .box2 h1,h3{
  margin-bottom: 5px;
+}
+
+.scrollable-content {
+ 
+  overflow-y: auto;
+  height: calc(100vh - 120px); /* Adjust based on the height of the fixed header */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+}
+.scrollable-content::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 .boxes{

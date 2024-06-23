@@ -3,7 +3,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow-y:auto ;
+    overflow-y:hidden ;
     scroll-behavior: smooth; /* Enables smooth scrolling */
 
     /* Scrollbar customization for Webkit browsers (Chrome, Safari) */
@@ -32,4 +32,5 @@
   scrollbar-color: #030000 #1a1a1a; /* color of the thumb and track */
 }
   }
+ 
   

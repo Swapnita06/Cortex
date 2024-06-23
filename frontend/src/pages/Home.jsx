@@ -200,9 +200,11 @@ const Home = () => {
         </div>
 
         <div className="box2" style={{ marginTop: "20px" }}>
-        
+        <div className="fixed-header">
           <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
-          <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Tailored Intelligence for every need.</h3>
+          <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" ,textAlign:'center'}}>Tailored Intelligence for every need.</h3>
+          </div>
+          <div className="scrollable-content">
           <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>
             {models.map((model, index) => (
               <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)} >
@@ -232,6 +234,7 @@ const Home = () => {
                 />
               </div>
             ))}
+            </div>
           </div>
         </div>
         <div className='box3'>
