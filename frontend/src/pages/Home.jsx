@@ -186,7 +186,7 @@ const Home = () => {
                     <li onClick={handleChat}><ChatOutlinedIcon /></li>
                   </Tooltip>
                 </div>
-                <div className="list2" style={{ color: "gray", marginTop:"570px",position:"fixed"  }}>
+                <div className="list2" style={{ color: "gray", marginTop:"530px",position:"fixed"  }}>
                   <Tooltip title="Announcements" placement="right">
                     <li><AnnouncementOutlinedIcon /></li>
                   </Tooltip>
