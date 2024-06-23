@@ -64,7 +64,7 @@ def initiate_group_chat(agents, message):
         description="I stand for the user and can run code.",
     )
 
-    groupchat = autogen.GroupChat(agents=[user_proxy] + agents, messages=[], max_round=12)
+    groupchat = autogen.GroupChat(agents=[user_proxy] + agents, messages=[], max_round=4)
     manager = autogen.GroupChatManager(
         groupchat=groupchat,
         llm_config=agents[0].llm_config,  # Assuming all agents have the same llm_config
