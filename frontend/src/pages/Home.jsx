@@ -203,8 +203,8 @@ const Home = () => {
           border:"2px solid orange", 
           padding:"10px", 
           fontSize:"16px",
-          width: "117.895px",
-          marginLeft:"900px"
+          width: "110px",
+          marginLeft:"800px",
           }}
           onClick={() => logout({ returnTo: window.location.origin })}>Logout</button>
           <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
