@@ -1,33 +1,37 @@
-import { Typography } from '@mui/material'
-import React from 'react'
+import { Typography } from '@mui/material';
+import React, { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import './Login.css'; // Import the CSS file
 
 const Login = () => {
-
-  const { user, loginWithRedirect, logout, isLoading, error, isAuthenticated } = useAuth0();
-  console.log("current User", user);
-
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/home'); // or the path you want to navigate to
+      navigate('/home'); // Navigate to the home page after login
     }
   }, [isAuthenticated, navigate]);
 
-  // if (isLoading) return <div>Loading...</div>;
-  // if (error) return <div>Oops... {error.message}</div>;
-
   return (
-    <div>
-      <Typography>Login to Continue</Typography>
-      <button onClick={loginWithRedirect} style={{backgroundColor:"red"}}>Login with redirect</button>
-      </div>
-  )
+    <div className='login'>
+      <Typography sx={{ fontFamily: "Manrope", textAlign: "center", fontSize:"50px",color:"white" }}>
+      Build, Chat, Innovate with AI
+      </Typography>
+      <button
+        onClick={loginWithRedirect} 
+        style={{ fontFamily: "Manrope", 
+          backgroundColor:"transparent", 
+          borderRadius:"10px",
+          border:"2px solid orange", 
+          padding:"20px", 
+          fontSize:"20px" }}
+      >
+        Access Here
+      </button>
+    </div>
+  );
 }
 
-export default Login
+export default Login;
