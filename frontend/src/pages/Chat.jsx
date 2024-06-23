@@ -49,6 +49,10 @@ const Chat = () => {
   const handleSendMessage = () => {
     if (message.trim() === '') {
       setError('Message cannot be empty.');
+      // Clear error message after 5 seconds
+      setTimeout(() => {
+        setError('');
+      }, 5000);
       return;
     }
 
@@ -66,6 +70,10 @@ const Chat = () => {
       .catch((error) => {
         console.error('Error sending message:', error);
         setError('Failed to send message. Please try again.');
+        // Clear error message after 5 seconds
+        setTimeout(() => {
+          setError('');
+        }, 3000);
       });
   };
 
@@ -131,7 +139,6 @@ const Chat = () => {
           overflowY: 'auto',
           padding: '10px',
           borderRadius: '10px',
-         
         }}
       >
         {chatHistory.map((messageData, index) => (
