@@ -175,8 +175,13 @@ const Home = () => {
                     <li onClick={() => handleOpen({ name: '', description: '', goal: '' }, true)}><AddCircleOutlineIcon /></li>
                   </Tooltip>
                   <Tooltip title="Group Chat" placement="right">
-                    <li onClick={() => setIsGroupChat(!isGroupChat)}><GroupAddOutlinedIcon /></li>
-                  </Tooltip>
+                          <li onClick={() => {
+                            setIsGroupChat(!isGroupChat);
+                            alert('Group chat mode enabled');
+                          }}>
+                            <GroupAddOutlinedIcon />
+                          </li>
+                        </Tooltip>
                   <Tooltip title={isGroupChat ? 'Start Group Chat' : 'Chat'} placement="right">
                     <li onClick={handleChat}><ChatOutlinedIcon /></li>
                   </Tooltip>
