@@ -186,7 +186,7 @@ const Home = () => {
                     <li onClick={handleChat}><ChatOutlinedIcon /></li>
                   </Tooltip>
                 </div>
-                <div className="list2" style={{ color: "gray", marginTop:"570px",position:"fixed"  }}>
+                <div className="list2" style={{ color: "gray", marginTop:"530px",position:"fixed"  }}>
                   <Tooltip title="Announcements" placement="right">
                     <li><AnnouncementOutlinedIcon /></li>
                   </Tooltip>
@@ -211,7 +211,7 @@ const Home = () => {
           width: "110px",
           marginLeft:"800px",
           }}
-          onClick={() => logout({ returnTo: window.location.origin })}>Logout</button>
+          onClick={() => logout({ returnTo:'https://cortex-sable.vercel.app/'})}>Logout</button>
           <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
           <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Tailored Intelligence for every need.</h3>
           <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>
