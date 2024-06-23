@@ -24,6 +24,8 @@ import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import { TextField, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+
 import './Home.css';
 
 const Home = () => {
@@ -33,6 +35,9 @@ const Home = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [selectedModels, setSelectedModels] = useState([]);
   const [isGroupChat, setIsGroupChat] = useState(false);
+
+  const { user, loginWithRedirect, logout, isLoading, error, isAuthenticated } = useAuth0();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -190,6 +195,8 @@ const Home = () => {
         </div>
 
         <div className="box2" style={{ marginTop: "20px" }}>
+        <button onClick={() => logout({ returnTo: window.location.origin })}>Logout</button>
+
           <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
           <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Tailored Intelligence for every need.</h3>
           <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>
