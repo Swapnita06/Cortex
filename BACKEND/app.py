@@ -40,7 +40,7 @@ def initiate_single_chat(agent, message):
         code_execution_config={"last_n_messages": 20, "work_dir": "coding", "use_docker": False},
         human_input_mode="NEVER",
         is_termination_msg=lambda x: autogen.code_utils.content_str(x.get("content")).find("TERMINATE") >= 0,
-        description="I stand for the user and can run code.",
+        description="I stand for the user.",
     )
 
     groupchat = autogen.GroupChat(agents=[user_proxy, agent], messages=[], max_round=12)
@@ -61,7 +61,7 @@ def initiate_group_chat(agents, message):
         code_execution_config={"last_n_messages": 20, "work_dir": "coding", "use_docker": False},
         human_input_mode="NEVER",
         is_termination_msg=lambda x: autogen.code_utils.content_str(x.get("content")).find("TERMINATE") >= 0,
-        description="I stand for the user and can run code.",
+        description="I stand for the user.",
     )
 
     groupchat = autogen.GroupChat(agents=[user_proxy] + agents, messages=[], max_round=6)
