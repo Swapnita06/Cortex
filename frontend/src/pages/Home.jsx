@@ -47,7 +47,7 @@ const Home = () => {
   const fetchModels = () => {
     axios.get('https://cortex-rnd0.onrender.com/models')
       .then(response => {
-        const allModels = [...response.data.predefined_models, ...response.data.custom_models];
+        const allModels = [...response.data.predefined_models];
         setModels(allModels);
       })
       .catch(error => {

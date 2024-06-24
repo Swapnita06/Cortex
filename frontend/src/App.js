@@ -15,7 +15,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Login/>}/>
       <Route path='/home' element={<Home/>}/>
-      <Route path="/chat" element={<Page404/>} />
+      <Route path="/chat" element={<Temp/>} />
       <Route path="/chat/:modelName" element={<Chat />} />
       <Route path="/group-chat/:modelNames" element={<GroupChat />} /> 
       <Route path='*' element={<Page404/>} />
