@@ -23,7 +23,8 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import { TextField, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
 import './Home.css';
@@ -169,7 +170,7 @@ const Home = () => {
               <div className="list">
                 <div className="list1" style={{ color: "gray",position:"fixed" }}>
                   <Tooltip title="Home" placement="right">
-                    <li><HomeOutlinedIcon style={{ width: "40px" }}  /></li>
+                  <li><Link to="/home"><HomeOutlinedIcon sx={{width:"40px", color:"gray",'&:hover': { color: 'white'}}} /></Link></li>
                   </Tooltip>
                   <Tooltip title="Create New Agent" placement="right">
                     <li onClick={() => handleOpen({ name: '', description: '', goal: '' }, true)}><AddCircleOutlineIcon /></li>
@@ -187,8 +188,8 @@ const Home = () => {
                   </Tooltip>
                 </div>
                 <div className="list2" style={{ color: "gray", marginTop:"530px",position:"fixed"  }}>
-                  <Tooltip title="Announcements" placement="right">
-                    <li><AnnouncementOutlinedIcon /></li>
+                  <Tooltip title="Playground" placement="right">
+                    <li><Link to="/playground"><SmartToyIcon sx={{color:"gray",'&:hover': { color: 'white'}}}/></Link></li>
                   </Tooltip>
                   <Tooltip title="Account" placement="right">
                     <li><AccountCircleOutlinedIcon /></li>

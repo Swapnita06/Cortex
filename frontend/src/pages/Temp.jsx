@@ -23,7 +23,8 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import { TextField, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Temp = () => {
@@ -167,7 +168,7 @@ const Temp = () => {
               <div className="list">
                 <div className="list1" style={{ color: "gray",position:"fixed" }}>
                   <Tooltip title="Home" placement="right">
-                    <li><HomeOutlinedIcon style={{ width: "40px" }}  /></li>
+                  <li><Link to="/home"><HomeOutlinedIcon sx={{width:"40px", color:"gray",'&:hover': { color: 'white'}}} /></Link></li>
                   </Tooltip>
                   <Tooltip title="Create New Agent" placement="right">
                     <li onClick={() => handleOpen({ name: '', description: '', goal: '' }, true)}><AddCircleOutlineIcon /></li>
@@ -186,7 +187,7 @@ const Temp = () => {
                 </div>
                 <div className="list2" style={{ color: "gray", marginTop:"530px",position:"fixed"  }}>
                   <Tooltip title="Announcements" placement="right">
-                    <li><AnnouncementOutlinedIcon /></li>
+                  <li><Link to="/playground"><SmartToyIcon sx={{color:"gray",'&:hover': { color: 'white'}}}/></Link></li>
                   </Tooltip>
                   <Tooltip title="Account" placement="right">
                     <li><AccountCircleOutlinedIcon /></li>
@@ -199,8 +200,8 @@ const Temp = () => {
 
         <div className="box2" style={{ marginTop: "20px" }}>
         <div className="fixed-header">
-          <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
-          <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" ,textAlign:'center'}}>Tailored Intelligence for every need.</h3>
+          <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white", textAlign:"center" }}>AI Playground</h1>
+          <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" ,textAlign:'center'}}>Discover and engage with bespoke models crafted by creators worldwide.</h3>
           </div>
           <div className="scrollable-content">
           <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>
