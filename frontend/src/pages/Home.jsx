@@ -200,18 +200,7 @@ const Home = () => {
         </div>
 
         <div className="box2" style={{ marginTop: "20px" }}>
-        <button className='logout'
-          style={{
-            fontFamily: "Manrope", 
-          backgroundColor:"transparent", 
-          borderRadius:"10px",
-          border:"2px solid orange", 
-          padding:"10px", 
-          fontSize:"16px",
-          width: "110px",
-          marginLeft:"800px",
-          }}
-          onClick={() => logout({ returnTo:'https://cortex-sable.vercel.app/'})}>Logout</button>
+        
           <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
           <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Tailored Intelligence for every need.</h3>
           <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>
@@ -244,6 +233,20 @@ const Home = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className='box3'>
+        <button className='logout'
+          style={{
+            fontFamily: "Manrope", 
+          backgroundColor:"transparent", 
+          borderRadius:"10px",
+          border:"2px solid orange", 
+          padding:"10px", 
+          fontSize:"16px",
+          width: "110px",
+          marginLeft:"800px",
+          }}
+          onClick={() => logout({ returnTo:'https://cortex-sable.vercel.app/'})}>Logout</button>
         </div>
       </div>
 
