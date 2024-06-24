@@ -107,6 +107,7 @@ const Chat = () => {
   };
 
   return (
+
     <div className='single'>
       <Typography
         variant="h4"

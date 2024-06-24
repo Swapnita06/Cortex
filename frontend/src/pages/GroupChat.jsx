@@ -161,9 +161,10 @@ const GroupChat = () => {
           marginTop: '20px',
           gap: '20px',
           width: '60%',
-          marginLeft: '20%',
-          maxHeight: '70vh',
-          overflowY: 'auto',
+          // marginLeft: '20%',
+          // maxHeight: '70vh',
+          // overflowY: 'auto',
+          margin: 'auto auto 100px auto', 
           padding: '10px',
           borderRadius: '10px',
         }}
@@ -224,7 +225,9 @@ const GroupChat = () => {
       </Box>
 
       {/* Message input and send button */}
-      <Box className="chat-container" sx={{ display: 'flex', marginLeft: '21%', marginTop: '40px', width: '60%' }}>
+      <Box className="chat-container" 
+      // sx={{ display: 'flex', marginLeft: '21%', marginTop: '40px', width: '60%' }}
+      >
         <TextField
           fullWidth
           placeholder="Type your message"
@@ -264,7 +267,7 @@ const GroupChat = () => {
         <Button
           className="send-button"
           onClick={handleSendMessage}
-          sx={{ bgcolor: 'transparent', marginLeft: '-80px', marginTop: '-13px', color: "white" }}
+          sx={{ bgcolor: 'transparent', marginLeft: '-80px', marginTop: '-18px', color: "white" }}
         >
           <SendIcon />
         </Button>
