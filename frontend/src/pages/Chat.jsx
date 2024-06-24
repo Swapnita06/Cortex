@@ -20,7 +20,6 @@ import './Chat.css'; // Import the CSS file
 const Chat = () => {
   const { modelName } = useParams();
   const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const chatHistoryRef = useRef(null);
 
@@ -48,11 +47,11 @@ const Chat = () => {
 
   const handleSendMessage = () => {
     if (message.trim() === '') {
-      setError('Message cannot be empty.');
-      // Clear error message after 5 seconds
-      setTimeout(() => {
-        setError('');
-      }, 5000);
+      setChatHistory((prev) => [
+        ...prev,
+        { userMessage: message, modelResponse: 'Sorry for the trouble. Message cannot be empty.' },
+      ]);
+      setMessage('');
       return;
     }
 
@@ -69,11 +68,11 @@ const Chat = () => {
       })
       .catch((error) => {
         console.error('Error sending message:', error);
-        setError('Failed to send message. Please try again.');
-        // Clear error message after 5 seconds
-        setTimeout(() => {
-          setError('');
-        }, 3000);
+        setChatHistory((prev) => [
+          ...prev,
+          { userMessage: message, modelResponse: 'Sorry for the trouble. Failed to send message. Please try again.' },
+        ]);
+        setMessage('');
       });
   };
 
@@ -237,11 +236,6 @@ const Chat = () => {
         >
           <SendIcon />
         </Button>
-        {error && (
-          <Typography variant="subtitle2" color="error" className="error-message">
-            {error}
-          </Typography>
-        )}
       </Box>
     </div>
   );
