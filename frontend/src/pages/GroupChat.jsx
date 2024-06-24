@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import ReactMarkdown from 'react-markdown';
@@ -16,6 +16,7 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import './Chat.css'; // Import the CSS file
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const GroupChat = () => {
   const { modelNames } = useParams(); // Extract modelNames from route parameters
@@ -136,6 +137,9 @@ const GroupChat = () => {
 
   return (
     <div className="single">
+      <Link to="/home">
+  <ArrowBackIcon style={{ position: 'absolute', top: '40px', left: '80px', fontSize: '2.8rem',color: 'white', }}/>
+</Link>
       <Typography
         variant="h4"
         gutterBottom
