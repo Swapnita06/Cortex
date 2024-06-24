@@ -70,7 +70,7 @@ const Chat = () => {
         console.error('Error sending message:', error);
         setChatHistory((prev) => [
           ...prev,
-          { userMessage: message, modelResponse: 'Sorry for the trouble. Failed to send message. Please try again.' },
+          { userMessage: message, modelResponse: 'Yikes! Brain hiccup. The server is being moody. Retry in a bit' },
         ]);
         setMessage('');
       });

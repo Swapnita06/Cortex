@@ -20,7 +20,6 @@ import './Chat.css'; // Import the CSS file
 const GroupChat = () => {
   const { modelNames } = useParams(); // Extract modelNames from route parameters
   const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const chatHistoryRef = useRef(null);
 
@@ -48,23 +47,30 @@ const GroupChat = () => {
 
   const handleSendMessage = () => {
     if (message.trim() === '') {
-      setError('Message cannot be empty.');
+      setChatHistory((prev) => [
+        ...prev,
+        { userMessage: 'Message cannot be empty.', modelResponses: [] },
+      ]);
       return;
     }
 
     // Ensure modelNames is defined and formatted correctly
     if (!modelNames || typeof modelNames !== 'string') {
-      setError('Invalid model names.');
+      setChatHistory((prev) => [
+        ...prev,
+        { userMessage: message, modelResponses: ['Yikes! Brain hiccup. The server is being moody. Retry in a bit'] },
+      ]);
       return;
     }
 
-    console.log("names",modelNames) ;
-    const namesArray = modelNames.split(',')
-    console.log(namesArray)
-    namesArray.map(name => name.toLowerCase().trim());
+    const namesArray = modelNames.split(',');
+    namesArray.map((name) => name.toLowerCase().trim());
 
-    if (namesArray.some(name => !name)) {
-      setError('Invalid model names.');
+    if (namesArray.some((name) => !name)) {
+      setChatHistory((prev) => [
+        ...prev,
+        { userMessage: message, modelResponses: ['Yikes! Brain hiccup. The server is being moody. Retry in a bit'] },
+      ]);
       return;
     }
 
@@ -73,19 +79,26 @@ const GroupChat = () => {
         model_names: namesArray,
         message,
       })
-      .then(response => {
+      .then((response) => {
         console.log('Group chat response:', response.data);
         const newMessage = {
           userMessage: message,
-          modelResponses: response.data.responses.map(response => response.replace(/TERMINATE/g, '')), // Remove the word "TERMINATE"
+          modelResponses: response.data.responses.map((response) =>
+            response.replace(/TERMINATE/g, '')
+          ), // Remove the word "TERMINATE"
         };
-        setChatHistory(prevChatHistory => [...prevChatHistory, newMessage]);
+        setChatHistory((prevChatHistory) => [
+          ...prevChatHistory,
+          newMessage,
+        ]);
         setMessage(''); // Clear message input after sending
-        setError(''); // Clear any previous error
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error sending message:', error);
-        setError('Failed to send message. Please try again.');
+        setChatHistory((prev) => [
+          ...prev,
+          { userMessage: message, modelResponses: ['Yikes! Brain hiccup. The server is being moody. Retry in a bit'] },
+        ]);
       });
   };
 
@@ -93,32 +106,31 @@ const GroupChat = () => {
     return name.replace(/_/g, ' '); // Replace underscores with spaces
   };
 
-  const getModelIcon = (name) => {  
-    if(name)
-      {
-    switch (name.toLowerCase()) {
-      case 'personal_trainer':
-        return <FitnessCenterIcon style={{ color: 'white', marginRight: '20px' }} />;
-      case 'investment_advisor':
-        return <ShowChartIcon style={{ color: 'white', marginRight: '20px' }} />;
-      case 'scientist':
-        return <ScienceIcon style={{ color: 'white', marginRight: '20px' }} />;
-      case 'writer':
-        return <DrawIcon style={{ color: 'white', marginRight: '20px' }} />;
-      case 'news_editor':
-        return <NewspaperIcon style={{ color: 'white', marginRight: '20px' }} />;
-      case 'wellness_consultant':
-        return <LocalHospitalIcon style={{ color: 'white', marginRight: '20px' }} />;
-      case 'event_coordinator':
-        return <EventIcon style={{ color: 'white', marginRight: '20px' }} />;
-      case 'travel_coordinator':
-        return <ExploreIcon style={{ color: 'white', marginRight: '20px' }} />;
-      case 'creative_content_strategists':
-        return <FaceRetouchingNaturalIcon style={{ color: 'white', marginRight: '20px' }} />;
-      // Add cases for other models as needed
-      default:
-        return <AutoAwesomeIcon style={{ color: 'white', marginRight: '20px' }} />;
-    }
+  const getModelIcon = (name) => {
+    if (name) {
+      switch (name.toLowerCase()) {
+        case 'personal_trainer':
+          return <FitnessCenterIcon style={{ color: 'white', marginRight: '20px' }} />;
+        case 'investment_advisor':
+          return <ShowChartIcon style={{ color: 'white', marginRight: '20px' }} />;
+        case 'scientist':
+          return <ScienceIcon style={{ color: 'white', marginRight: '20px' }} />;
+        case 'writer':
+          return <DrawIcon style={{ color: 'white', marginRight: '20px' }} />;
+        case 'news_editor':
+          return <NewspaperIcon style={{ color: 'white', marginRight: '20px' }} />;
+        case 'wellness_consultant':
+          return <LocalHospitalIcon style={{ color: 'white', marginRight: '20px' }} />;
+        case 'event_coordinator':
+          return <EventIcon style={{ color: 'white', marginRight: '20px' }} />;
+        case 'travel_coordinator':
+          return <ExploreIcon style={{ color: 'white', marginRight: '20px' }} />;
+        case 'creative_content_strategists':
+          return <FaceRetouchingNaturalIcon style={{ color: 'white', marginRight: '20px' }} />;
+        // Add cases for other models as needed
+        default:
+          return <AutoAwesomeIcon style={{ color: 'white', marginRight: '20px' }} />;
+      }
     }
   };
 
@@ -256,11 +268,6 @@ const GroupChat = () => {
         >
           <SendIcon />
         </Button>
-        {error && (
-          <Typography variant="subtitle2" color="error" className="error-message">
-            {error}
-          </Typography>
-        )}
       </Box>
     </div>
   );
