@@ -130,14 +130,18 @@ const Chat = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          marginTop: '20px',
+          
           gap: '20px',
           width: '60%',
-          marginLeft: '20%',
-          maxHeight: '70vh',
-          overflowY: 'auto',
+          // marginTop: '20px',
+          // marginLeft: '20%',
+          // maxHeight: '70vh',
+          // overflowY: 'auto',
+          // margin:'0 auto',
+          margin: 'auto auto 100px auto', 
           padding: '10px',
           borderRadius: '10px',
+          
         }}
       >
         {chatHistory.map((messageData, index) => (
@@ -192,7 +196,9 @@ const Chat = () => {
       </Box>
 
       {/* Message input and send button */}
-      <Box className="chat-container" sx={{ display: 'flex', marginLeft: '21%', marginTop: '40px', width: '60%' }}>
+      <Box className="chat-container" 
+      // sx={{ display: 'flex', marginLeft: '21%', marginTop: '40px', width: '60%' }}
+      >
         <TextField
           fullWidth
           placeholder="Type your message"
@@ -232,7 +238,7 @@ const Chat = () => {
         <Button
           className="send-button"
           onClick={handleSendMessage}
-          sx={{ bgcolor: 'transparent', marginLeft: '-80px', marginTop: '-13px', color: "white" }}
+          sx={{ bgcolor: 'transparent', marginLeft: '-80px', marginTop: '-18px', color: "white"  }}
         >
           <SendIcon />
         </Button>
