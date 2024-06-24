@@ -1,7 +1,8 @@
 # Cortex AI Platform
 
 Cortex is an advanced AI platform designed to provide users with a variety of predefined AI agents and models. It also allows users to create custom models tailored to their specific needs and engage in single or group chats with these AI agents. Cortex aims to deliver personalized, insightful, and interactive AI experiences.
-[Elevate AI Experiences more at **our platform**](https://cortex-sable.vercel.app/ ).
+
+Elevate AI Experiences more at [our platform](https://cortex-sable.vercel.app/ ).
 
 ## Features
 
