@@ -6,6 +6,7 @@ import GroupChat from './pages/GroupChat';
 import Temp from './pages/Temp';
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import Login from './pages/Login';
+import Page404 from './pages/Page404';
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
     <Routes>
       <Route path='/' element={<Login/>}/>
       <Route path='/home' element={<Home/>}/>
-      <Route path="/chat" element={<Temp/>} />
+      <Route path="/chat" element={<Page404/>} />
       <Route path="/chat/:modelName" element={<Chat />} />
-      <Route path="/group-chat/:modelNames" element={<GroupChat />} /> {/* Add the GroupChat route */}
+      <Route path="/group-chat/:modelNames" element={<GroupChat />} /> 
+      <Route path='*' element={<Page404/>} />
     </Routes>
     
     </BrowserRouter>

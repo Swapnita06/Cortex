@@ -17,11 +17,14 @@ import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import './Chat.css'; // Import the CSS file
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const GroupChat = () => {
   const { modelNames } = useParams(); // Extract modelNames from route parameters
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const chatHistoryRef = useRef(null);
 
   useEffect(() => {
@@ -32,7 +35,7 @@ const GroupChat = () => {
     if (chatHistoryRef.current) {
       chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
     }
-  }, [chatHistory]);
+  }, [chatHistory, isLoading]);
 
   const fetchChatHistory = () => {
     // Implement fetching chat history if needed
@@ -59,7 +62,7 @@ const GroupChat = () => {
     if (!modelNames || typeof modelNames !== 'string') {
       setChatHistory((prev) => [
         ...prev,
-        { userMessage: message, modelResponses: ['Yikes! Brain hiccup. The server is being moody. Retry in a bit'] },
+        { userMessage: message, modelResponses: ['Yikes! Brain hiccup. The server is being moody. Retry in a bit'] },
       ]);
       return;
     }
@@ -70,10 +73,12 @@ const GroupChat = () => {
     if (namesArray.some((name) => !name)) {
       setChatHistory((prev) => [
         ...prev,
-        { userMessage: message, modelResponses: ['Yikes! Brain hiccup. The server is being moody. Retry in a bit'] },
+        { userMessage: message, modelResponses: ['Yikes! Brain hiccup. The server is being moody. Retry in a bit'] },
       ]);
       return;
     }
+
+    setIsLoading(true);
 
     axios
       .post('https://cortex-rnd0.onrender.com/group_chat', {
@@ -93,13 +98,15 @@ const GroupChat = () => {
           newMessage,
         ]);
         setMessage(''); // Clear message input after sending
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error('Error sending message:', error);
         setChatHistory((prev) => [
           ...prev,
-          { userMessage: message, modelResponses: ['Yikes! Brain hiccup. The server is being moody. Retry in a bit'] },
+          { userMessage: message, modelResponses: ['Yikes! Brain hiccup. The server is being moody. Retry in a bit'] },
         ]);
+        setIsLoading(false);
       });
   };
 
@@ -138,8 +145,8 @@ const GroupChat = () => {
   return (
     <div className="single">
       <Link to="/home">
-  <ArrowBackIcon style={{ position: 'absolute', top: '40px', left: '80px', fontSize: '2.8rem',color: 'white', }}/>
-</Link>
+        <ArrowBackIcon style={{ position: 'absolute', top: '40px', left: '80px', fontSize: '2.8rem',color: 'white', }}/>
+      </Link>
       <Typography
         variant="h4"
         gutterBottom
@@ -165,9 +172,6 @@ const GroupChat = () => {
           marginTop: '20px',
           gap: '20px',
           width: '60%',
-          // marginLeft: '20%',
-          // maxHeight: '70vh',
-          // overflowY: 'auto',
           margin: 'auto auto 100px auto', 
           padding: '10px',
           borderRadius: '10px',
@@ -226,12 +230,35 @@ const GroupChat = () => {
             ))}
           </React.Fragment>
         ))}
+        {isLoading && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+            {getModelIcon(modelNames.split(',')[0])}
+            <Box
+              sx={{
+                borderRadius: '24px',
+                background:
+                  'linear-gradient(0deg, #7F7F7F 0%, #7F7F7F 100%), rgba(57, 56, 56, 0.50)',
+                mixBlendMode: 'color-dodge',
+                width: '80%',
+                padding: '15px',
+                fontFamily: 'Manrope',
+                color: 'white',
+              }}
+            >
+              <Skeleton count={3} />
+            </Box>
+          </Box>
+        )}
       </Box>
 
       {/* Message input and send button */}
-      <Box className="chat-container" 
-      // sx={{ display: 'flex', marginLeft: '21%', marginTop: '40px', width: '60%' }}
-      >
+      <Box className="chat-container">
         <TextField
           fullWidth
           placeholder="Type your message"
