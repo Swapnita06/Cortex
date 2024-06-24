@@ -251,7 +251,7 @@ def remove_expired_models():
     while True:
         now = datetime.now()
         custom_models[:] = [model for model in custom_models if now - model["created_at"] < timedelta(minutes=1)]
-        # time.sleep(108000)
+        time.sleep(108000)
 
 # Start the background thread to remove expired models
 threading.Thread(target=remove_expired_models, daemon=True).start()
