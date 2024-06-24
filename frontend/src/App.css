@@ -28,8 +28,8 @@
 
 /* Scrollbar customization for Firefox */
 * {
-  scrollbar-width: thin; /* width of the scrollbar */
-  scrollbar-color: #030000 #1a1a1a; /* color of the thumb and track */
+  scrollbar-width: thin; 
+  scrollbar-color: #030000 #1a1a1a; 
 }
   }
  
