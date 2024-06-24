@@ -177,7 +177,7 @@ const Home = () => {
                   <Tooltip title="Group Chat" placement="right">
                           <li onClick={() => {
                             setIsGroupChat(!isGroupChat);
-                            alert('Group chat mode enabled');
+                            alert('GROUP CHAT mode enabled.Select the desired models and click on Chat button');
                           }}>
                             <GroupAddOutlinedIcon />
                           </li>
