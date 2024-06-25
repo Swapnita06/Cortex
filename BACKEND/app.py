@@ -13,28 +13,6 @@ CORS(app)
 
 # Configuration file path
 CONFIG_FILE_PATH = "OAI_CONFIG_LIST.json"
-CUSTOM_MODELS_FILE_PATH = "custom_models.json"
-
-# Load custom models from JSON file
-def load_custom_models(custom_models_file_path):
-    try:
-        if os.path.exists(custom_models_file_path):
-            with open(custom_models_file_path, 'r') as file:
-                models = json.load(file)
-                print("Custom models loaded:", models)
-                return models
-    except json.decoder.JSONDecodeError:
-        pass  # Handle this exception as needed
-    return []
-
-# Save custom models to JSON file
-def save_custom_models(custom_models, custom_models_file_path):
-    existing_models = load_custom_models(custom_models_file_path)
-    existing_models.extend(custom_models)
-    
-    with open(custom_models_file_path, 'w') as file:
-        json.dump(existing_models, file, default=str, indent=2)
-    print("Custom models saved:", custom_models)
 
 # Load configuration list from a JSON file
 def load_config_list(config_file_path):
@@ -45,8 +23,8 @@ def create_model(name, description):
     config_list = load_config_list(CONFIG_FILE_PATH)
     seed = 42
 
-    agent = autogen.AssistantAgent(
-        name=name,  # Use the original name
+    return autogen.AssistantAgent(
+        name=name.lower(),  # Convert name to lowercase
         llm_config={
             "config_list": config_list,
             "seed": seed,
@@ -54,12 +32,6 @@ def create_model(name, description):
         max_consecutive_auto_reply=10,
         description=description,
     )
-    
-    # Add to agents dictionary
-    agent_id = name.lower().replace(" ", "_")
-    agents[agent_id] = agent
-    print(f"Model created: {agent_id}")
-    return agent
 
 # Initiate a single chat interaction with the selected agent
 def initiate_single_chat(agent, message):
@@ -71,7 +43,7 @@ def initiate_single_chat(agent, message):
         description="I stand for the user.",
     )
 
-    groupchat = autogen.GroupChat(agents=[user_proxy, agent], messages=[], max_round=2)
+    groupchat = autogen.GroupChat(agents=[user_proxy, agent], messages=[], max_round=12)
     manager = autogen.GroupChatManager(
         groupchat=groupchat,
         llm_config=agent.llm_config,
@@ -129,6 +101,7 @@ def custom_speaker_selection_func(last_speaker: Agent, groupchat: autogen.GroupC
     else:
         return "random"
 
+
 # Predefined agents
 agents = {
     "wellness_consultant": AssistantAgent(
@@ -166,7 +139,7 @@ agents = {
         name="Writer",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
-        description="Channels creativity and insight to craft compelling narratives and use words to evoke emotions and transport readers into new worlds.",
+        description="channels creativity and insight to craft compelling narratives and use words to evoke emotions and transport readers into new worlds.",
     ),
     "travel_coordinator": AssistantAgent(
         name="Travel Coordinator",
@@ -188,59 +161,39 @@ agents = {
     ),
 }
 
-# Endpoint to fetch all models
+custom_models = []
+
 @app.route("/models", methods=["GET"])
 def get_all_models():
     predefined_models = [{"name": agent.name, "description": agent.description} for agent in agents.values()]
-    custom_models = load_custom_models(CUSTOM_MODELS_FILE_PATH)
-    custom_model_descriptions = [{"name": model["name"], "description": model["description"]} for model in custom_models]
+    custom_model_descriptions = [{"name": model["agent"].name, "description": model["agent"].description} for model in custom_models]
     return jsonify({"predefined_models": predefined_models, "custom_models": custom_model_descriptions})
 
-# Endpoint to create a new custom model
 @app.route("/create_model", methods=["POST"])
 def api_create_model():
     data = request.json
     model_name = data.get("name")
     model_description = data.get("description")
 
-    # Create a new custom model
-    custom_model = {
-        "name": model_name,
-        "description": model_description,
-        "id": model_name.lower().replace(" ", "_"),
-        "created_at": datetime.now().isoformat()
-    }
-
-    # Create the AssistantAgent and add to agents dictionary
-    agent = create_model(custom_model["name"], custom_model["description"])
-
-    # Append the new custom model to the existing ones and save
-    save_custom_models([custom_model], CUSTOM_MODELS_FILE_PATH)
-
+    custom_model = create_model(model_name, model_description)
+    custom_models.append({
+        "agent": custom_model,
+        "created_at": datetime.now()
+    })
     return jsonify({"message": f"Custom model '{model_name}' created successfully!"})
 
-@app.route("/single_chat/<model_id>", methods=["POST"])
-def api_single_chat(model_id):
+@app.route("/single_chat/<model_name>", methods=["POST"])
+def api_single_chat(model_name):
     data = request.json
     message = data.get("message")
-    custom_models = load_custom_models(CUSTOM_MODELS_FILE_PATH)
-    print("Custom models in /single_chat:", custom_models)
 
-    agent = agents.get(model_id.lower())
-    print(f"Agent found for model_id '{model_id}':", agent)
-
-    if not agent:
-        custom_model = next((m for m in custom_models if m["id"].lower() == model_id.lower()), None)
-        if custom_model:
-            agent = create_model(custom_model["name"], custom_model["description"])
-            print(f"Created new agent for model_id '{model_id}' from custom models:", agent)
-
+    agent = agents.get(model_name.lower()) or next((m["agent"] for m in custom_models if m["agent"].name.lower() == model_name.lower()), None)
     if not agent:
         return jsonify({"error": "Model not found"}), 404
 
     try:
         responses = initiate_single_chat(agent, message)
-        return jsonify({"responses": responses})
+        return jsonify({"responses": responses[1]})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -250,14 +203,9 @@ def api_group_chat():
     model_names = data.get("model_names")
     message = data.get("message")
 
-    custom_models = load_custom_models(CUSTOM_MODELS_FILE_PATH)
-    print("Custom models in /group_chat:", custom_models)
-
     # Retrieve the selected agents based on the provided model names
-    selected_agents = [agents.get(name.lower()) or next((m["name"] for m in custom_models if m["id"].lower() == name.lower()), None) for name in model_names]
+    selected_agents = [agents.get(name.lower()) or next((m["agent"] for m in custom_models if m["agent"].name.lower() == name.lower()), None) for name in model_names]
     selected_agents = [agent for agent in selected_agents if agent]
-
-    print("Selected agents for group chat:", selected_agents)
 
     # Ensure at least two valid agents are selected
     if len(selected_agents) < 2:
@@ -271,7 +219,7 @@ def api_group_chat():
             max_round=5,
             speaker_selection_method=lambda last_speaker, gc: custom_speaker_selection_func(last_speaker, gc, selected_agents)
         )
-
+        
         # Create the GroupChatManager
         manager = autogen.GroupChatManager(groupchat=groupchat, llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42})
 
@@ -288,26 +236,25 @@ def api_group_chat():
 
         # Initiate the chat
         user_proxy.initiate_chat(manager, message=message)
-
+        
         # Collect responses directly from the groupchat messages
         responses = [msg["content"] for msg in groupchat.messages]
-        print("Group chat responses:", responses)
+        print(responses)
         return jsonify({"responses": responses})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Background task to remove expired custom models
+
+
+# Function to remove expired custom models
 def remove_expired_models():
     while True:
         now = datetime.now()
-        custom_models = load_custom_models(CUSTOM_MODELS_FILE_PATH)
-        custom_models = [model for model in custom_models if now - datetime.fromisoformat(model["created_at"]) < timedelta(minutes=1)]
-        save_custom_models(custom_models, CUSTOM_MODELS_FILE_PATH)
-        time.sleep(10800)  # Sleep for 3 hours
+        custom_models[:] = [model for model in custom_models if now - model["created_at"] < timedelta(minutes=1)]
+        time.sleep(108000)
 
 # Start the background thread to remove expired models
 threading.Thread(target=remove_expired_models, daemon=True).start()
 
-# Run the Flask application
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)
