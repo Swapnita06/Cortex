@@ -24,7 +24,7 @@ def create_model(name, description):
     seed = 42
 
     return autogen.AssistantAgent(
-        name=name.lower(),  # Convert name to lowercase
+        name=name.lower().replace(" ", "_"),  # Replace spaces with underscores and convert to lowercase
         llm_config={
             "config_list": config_list,
             "seed": seed,
@@ -139,7 +139,7 @@ agents = {
         name="Writer",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
-        description="channels creativity and insight to craft compelling narratives and use words to evoke emotions and transport readers into new worlds.",
+        description="Channels creativity and insight to craft compelling narratives and use words to evoke emotions and transport readers into new worlds.",
     ),
     "travel_coordinator": AssistantAgent(
         name="Travel Coordinator",
@@ -187,7 +187,7 @@ def api_single_chat(model_name):
     data = request.json
     message = data.get("message")
 
-    agent = agents.get(model_name.lower()) or next((m["agent"] for m in custom_models if m["agent"].name.lower() == model_name.lower()), None)
+    agent = agents.get(model_name.lower()) or next((m["agent"] for m in custom_models if m["agent"].name == model_name.lower().replace(" ", "_")), None)
     if not agent:
         return jsonify({"error": "Model not found"}), 404
 
@@ -204,7 +204,7 @@ def api_group_chat():
     message = data.get("message")
 
     # Retrieve the selected agents based on the provided model names
-    selected_agents = [agents.get(name.lower()) or next((m["agent"] for m in custom_models if m["agent"].name.lower() == name.lower()), None) for name in model_names]
+    selected_agents = [agents.get(name.lower()) or next((m["agent"] for m in custom_models if m["agent"].name == name.lower().replace(" ", "_")), None) for name in model_names]
     selected_agents = [agent for agent in selected_agents if agent]
 
     # Ensure at least two valid agents are selected
@@ -243,8 +243,6 @@ def api_group_chat():
         return jsonify({"responses": responses})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
 
 # Function to remove expired custom models
 def remove_expired_models():
