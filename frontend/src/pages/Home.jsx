@@ -381,6 +381,7 @@ const Home = () => {
           </Box>
         </Box>
       </Modal>
+      
     </div>
   );
 };

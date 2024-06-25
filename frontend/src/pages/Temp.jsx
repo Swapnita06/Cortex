@@ -43,10 +43,27 @@ const Temp = () => {
     fetchModels();
   }, []);
 
+  // const fetchModels = () => {
+  //   axios.get('https://cortex-rnd0.onrender.com/models')
+  //     .then(response => {
+  //       const allModels = [ ...response.data.custom_models];
+  //       setModels(allModels);
+  //     })
+  //     .catch(error => {
+  //       console.error('There was an error fetching the models!', error);
+  //     });
+  // };
+
   const fetchModels = () => {
     axios.get('https://cortex-rnd0.onrender.com/models')
       .then(response => {
-        const allModels = [ ...response.data.custom_models];
+        // Remove underscores from custom model names
+        const allModels = response.data.custom_models.map(model => {
+          return {
+            ...model,
+            name: model.name.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase()) 
+          };
+        });
         setModels(allModels);
       })
       .catch(error => {
@@ -74,6 +91,7 @@ const Temp = () => {
       .then(response => {
         console.log(response.data.message);
         fetchModels(); // Refresh models after creating a new one
+        alert("Model created Please check Playground")
       })
       .catch(error => {
         console.error('There was an error creating the agent!', error);
