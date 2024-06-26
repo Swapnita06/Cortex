@@ -206,7 +206,7 @@ const Temp = () => {
                   </Tooltip>
                 </div>
                 <div className="list2" style={{ color: "gray", marginTop:"530px",position:"fixed"  }}>
-                  <Tooltip title="Announcements" placement="right">
+                  <Tooltip title="Playground" placement="right">
                   <li><Link to="/playground"><SmartToyIcon sx={{color:"gray",'&:hover': { color: 'white'}}}/></Link></li>
                   </Tooltip>
                   <Tooltip title="Account" placement="right">
