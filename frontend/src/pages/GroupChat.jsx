@@ -39,7 +39,7 @@ const GroupChat = () => {
 
   const fetchChatHistory = () => {
     // Implement fetching chat history if needed
-    // Example:
+    // Example:-
     // axios.get(`http://localhost:5000/chat_history/${modelNames}`)
     //   .then(response => {
     //     setChatHistory(response.data.chatHistory);
