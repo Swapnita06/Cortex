@@ -26,6 +26,7 @@ import { TextField, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import Searchbar from './Searchbar';
 
 const Temp = () => {
   const [open, setOpen] = useState(false);
@@ -182,6 +183,7 @@ const Temp = () => {
     <div className={`home ${open ? 'blurry-background' : ''}`}>
       <div className='hidden-container'>sorry your device is incompatible...</div>
       <div className="container">
+        
         <div className="box1">
           <nav>
             <ul className="icon-list">
@@ -222,6 +224,7 @@ const Temp = () => {
         <div className="fixed-header">
           <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white", textAlign:"center" }}>AI Playground</h1>
           <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" ,textAlign:'center'}}>Discover and engage with bespoke models crafted by creators worldwide.</h3>
+          <Searchbar/>
           </div>
           <div className="scrollable-content">
           <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>
