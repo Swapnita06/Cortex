@@ -26,6 +26,8 @@ import { TextField, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import './Home.css';
 
@@ -75,10 +77,12 @@ const Home = () => {
     axios.post('https://cortex-rnd0.onrender.com/create_model', currentAgent)
       .then(response => {
         console.log(response.data.message);
+        toast.success('Agent created successfully! Find your agents in AI Playground!');
         fetchModels(); // Refresh models after creating a new one
       })
       .catch(error => {
         console.error('There was an error creating the agent!', error);
+        toast.error('Error creating the agent.');
       });
 
     setOpen(false);
@@ -108,7 +112,8 @@ const Home = () => {
     if (isGroupChat) {
       
       if (selectedModels.length === 0) {
-        alert('Please select at least one model for group chat.');
+        //alert('Please select at least one model for group chat.');
+        toast.warn('Please select at least one model for group chat.');
         return;
       }
       const selectedModelNames = selectedModels.map(model => formatModelName(model)).join(',');
@@ -128,7 +133,8 @@ const Home = () => {
       } else if (prevSelectedModels.length < 3) {
         return [...prevSelectedModels, modelName];
       } else {
-        alert('You can select up to 3 models for group chat.');
+        //alert('You can select up to 3 models for group chat.');
+        toast.warn('You can select up to 3 models for group chat.');
         return prevSelectedModels;
       }
     });
@@ -162,6 +168,7 @@ const Home = () => {
 
   return (
     <div className={`home ${open ? 'blurry-background' : ''}`}>
+      <ToastContainer />
       <div className='hidden-container'>sorry your device is incompatible...</div>
       <div className="container">
         <div className="box1">
@@ -178,14 +185,18 @@ const Home = () => {
                   <Tooltip title="Group Chat" placement="right">
                           <li onClick={() => {
                             setIsGroupChat(!isGroupChat);
-                            alert('GROUP CHAT mode enabled.Select the desired models and click on Chat button');
+                            //alert('GROUP CHAT mode enabled. Select the desired models and then click on Start Group Chat icon!');
+                            toast.info('GROUP CHAT mode enabled. Select the desired models and then click on START GROUP CHAT icon!');
+                            
                           }}>
                             <GroupAddOutlinedIcon />
                           </li>
                         </Tooltip>
+                        {isGroupChat && (
                   <Tooltip title={isGroupChat ? 'Start Group Chat' : 'Chat'} placement="right">
                     <li onClick={handleChat}><ChatOutlinedIcon /></li>
                   </Tooltip>
+                  )}
                 </div>
                 <div className="list2" style={{ color: "gray", marginTop:"530px",position:"fixed"  }}>
                   <Tooltip title="Playground" placement="right">
