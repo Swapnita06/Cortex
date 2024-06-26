@@ -57,19 +57,21 @@ const Temp = () => {
   const fetchModels = () => {
     axios.get('https://cortex-rnd0.onrender.com/models')
       .then(response => {
-        // Remove underscores from custom model names
-        const allModels = response.data.custom_models.map(model => {
-          return {
+        // Remove underscores from custom model names and reverse the array to show latest first
+        const allModels = response.data.custom_models
+          .map(model => ({
             ...model,
-            name: model.name.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase()) 
-          };
-        });
+            name: model.name.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())
+          }))
+          .reverse(); // Reverse the array
+  
         setModels(allModels);
       })
       .catch(error => {
         console.error('There was an error fetching the models!', error);
       });
   };
+  
 
   const handleOpen = (agent, creating = false) => {
     setCurrentAgent(agent);
