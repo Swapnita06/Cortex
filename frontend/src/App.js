@@ -7,6 +7,7 @@ import Temp from './pages/Temp';
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import Login from './pages/Login';
 import Page404 from './pages/Page404';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path='/' element={<Login/>}/>
       <Route path='/home' element={<Home/>}/>
       <Route path="/chat" element={<Page404/>} />
+      <Route path='/profile' element={<Profile/>}/>
       <Route path="/chat/:modelName" element={<Chat />} />
       <Route path="/group-chat/:modelNames" element={<GroupChat />} /> 
       <Route path="/playground" element={<Temp/>} />

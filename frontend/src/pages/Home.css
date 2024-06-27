@@ -54,9 +54,10 @@
 .icon-list li {
   display: flex;
   justify-content: space-around;
-  padding: 30px 0px;
+  padding: 15px 0px;
   scale: 1.6;
   transition: all 0.3s ease; 
+  margin-bottom: 20px;
 }
 
 .icon-list li:hover {
@@ -116,6 +117,7 @@ height: 100vh;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 3px;
+  
 }
 .agents{
    border: 1px solid black;
@@ -128,6 +130,7 @@ text-align:left;
 padding: 1.5rem;
 margin: 7px;
 transition: background-color 0.3s ease;
+min-width:  210px;
 }
 
 .agents:hover {
@@ -139,6 +142,7 @@ transition: background-color 0.3s ease;
   position: absolute;
   bottom: 10px;
   right: 10px;
+  
 }
 
 
