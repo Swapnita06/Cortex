@@ -130,11 +130,11 @@ const Home = () => {
     setSelectedModels((prevSelectedModels) => {
       if (prevSelectedModels.includes(modelName)) {
         return prevSelectedModels.filter((name) => name !== modelName);
-      } else if (prevSelectedModels.length < 3) {
+      } else if (prevSelectedModels.length < 3 ) {
         return [...prevSelectedModels, modelName];
       } else {
         //alert('You can select up to 3 models for group chat.');
-        toast.warn('You can select up to 3 models for group chat.');
+        toast.warn('You can select only up to 3 models for group chat at a time.');
         return prevSelectedModels;
       }
     });
@@ -228,7 +228,7 @@ const Home = () => {
                         disabled={!isGroupChat && selectedModels.length > 0}
                         sx={{
                           
-                           top:"53px", left:"220px"
+                           top:"53px", left:"205px"
                         }}
                       />
                     }

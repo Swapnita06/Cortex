@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './searchbar.css'
-const Searchbar = () => {
-  return (
-    <div class="searchBox">
 
-            <input className="searchInput" type="text" name="" placeholder="Search Your Agents"/>
-            <button className="searchButton" href="#">
+
+const Searchbar = () => {
+    
+
+  return (
+    <>
+    
+    <div class="searchBox">
+            <input className="searchInput" type="text" name="" placeholder="Search Your Agents" 
+           
+           />
+
+            <button  
+            className="searchButton" href="#">
                    
                   
 
@@ -34,11 +43,11 @@ const Searchbar = () => {
                      
 
             </button>
+
         </div>
-
-
-        
+   
+        </>   
   )
-}
 
+};
 export default Searchbar
