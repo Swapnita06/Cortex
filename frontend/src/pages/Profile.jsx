@@ -116,7 +116,6 @@ const Profile = () => {
     };
 
     const modelNameToSend = formatModelName(modelName);
-    // Navigate or perform chat action with modelNameToSend
     navigate(`/chat/${modelNameToSend}`);
     toast.info(`Initiating chat with ${modelName}`);
     setOpen(false);
