@@ -3,13 +3,16 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
-import './Profile.css';
+import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'; // Added Material-UI icon for delete
+import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import './Profile.css';
 
 const Profile = () => {
   const { user, isAuthenticated, logout } = useAuth0();
@@ -18,6 +21,8 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingApiKey, setIsEditingApiKey] = useState(false);
   const [customModels, setCustomModels] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [currentModel, setCurrentModel] = useState({ name: '', description: '' });
 
   useEffect(() => {
     if (isAuthenticated && user && user.email) {
@@ -94,6 +99,26 @@ const Profile = () => {
       console.error('Error deleting model:', error.response.data.error);
       toast.error(`Failed to delete model: ${error.response.data.error}`);
     }
+  };
+
+  const handleOpenModal = (model) => {
+    setCurrentModel(model);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+
+  const handleChat = (modelName) => {
+    const formatModelName = (name) => {
+      return name.replace(/\s+/g, '_').toLowerCase();
+    };
+
+    const modelNameToSend = formatModelName(modelName);
+    // Navigate or perform chat action with modelNameToSend
+    toast.info(`Initiating chat with ${modelName}`);
+    setOpen(false);
   };
 
   return (
@@ -193,6 +218,7 @@ const Profile = () => {
                         style={{ marginLeft: '10px', cursor: 'pointer', color: 'red' }}
                         onClick={() => handleDeleteModel(model.name)}
                       />
+                      <Button onClick={() => handleOpenModal(model)}>Chat</Button>
                     </li>
                   ))}
                 </ul>
@@ -202,6 +228,38 @@ const Profile = () => {
         )}
         <button className='logout-btn' onClick={handleLogout}>Logout</button>
       </div>
+
+      <Modal
+        open={open}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-model-title"
+        aria-describedby="modal-model-description"
+      >
+        <Box sx={{
+          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+          width: 600, bgcolor: 'black', border: '1px solid gray', boxShadow: 24, p: 4, borderRadius: '5%', padding: "50px",
+          background: "rgba(12, 12, 12, 0.70)", backdropFilter: "blur(75px)"
+        }}>
+          <Typography variant="h5" sx={{ color: 'white', fontFamily: "Manrope" }}>
+            {currentModel.name}
+          </Typography>
+          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily: "Manrope" }}>
+            {currentModel.description}
+          </Typography>
+          <Button
+            sx={{ mt: 2, bgcolor: "#0C0C0CB2", border: "1px solid orange", width: "120px", borderRadius: "10px", color: "white" }}
+            onClick={() => handleChat(currentModel.name)}
+          >
+            Start Chat
+          </Button>
+          <Button
+            sx={{ mt: 2, bgcolor: "transparent", border: "1px solid white", width: "120px", borderRadius: "10px", color: "white", marginLeft: "5px" }}
+            onClick={handleCloseModal}
+          >
+            Close
+          </Button>
+        </Box>
+      </Modal>
     </div>
   );
 }
