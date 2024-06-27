@@ -36,12 +36,10 @@ Elevate AI Experiences more at [our platform](https://cortex-sable.vercel.app/ )
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/yourusername/cortex-ai.git
-    cd cortex-ai
     ```
 
-2. **Install dependencies**:
+2. **Install dependencies for Backend**:
     ```bash
-    npm install
     cd backend
     pip install -r requirements.txt
     ```
@@ -51,8 +49,14 @@ Elevate AI Experiences more at [our platform](https://cortex-sable.vercel.app/ )
     cd backend
     python app.py
     ```
+4. **Install dependencies for Frontend**:
+    ```bash
+    cd FRONTEND
+    npm install
+    ```
 
-4. **Start the frontend development server**:
+
+5. **Start the frontend development server**:
     ```bash
     npm start
     ```
