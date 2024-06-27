@@ -22,6 +22,9 @@ db = client.cortex
 # Access the 'users' collection
 users_collection = db.users
 
+# Access a collection named 'models' in the 'cortex' database
+models_collection = db.models
+
 
 app = Flask(__name__)
 CORS(app)
@@ -235,6 +238,7 @@ def api_create_model():
     model_description = data.get("description")
     system_message = data.get("goal")
     user_email = data.get("email")  # Assuming email is provided in the request
+    username = data.get("username")
 
     # Check if the model name already exists in predefined models or custom_models list
     if agents.get(model_name.lower()) or any(model["agent"].name == model_name.lower().replace(" ", "_") for model in custom_models):
@@ -247,6 +251,11 @@ def api_create_model():
         "created_at": datetime.now(),
         "email": user_email
     })
+
+    models_collection.insert_one(
+        {"username": username,},
+        {"$addToSet": {"model": custom_model}},
+    )
 
     # Construct the dictionary representation of the custom_model
     model_dict = {
@@ -329,7 +338,6 @@ def api_group_chat():
         return jsonify({"error": str(e)}), 500
 
 
-from flask import request, jsonify
 
 @app.route("/update_api_key", methods=["POST"])
 def update_api_key():
@@ -352,6 +360,37 @@ def update_api_key():
         return jsonify({"message": "API key updated successfully."}), 200
     else:
         return jsonify({"error": f"Failed to update API key for email '{user_email}'."}), 500
+    
+
+@app.route("/delete_model", methods=["POST"])
+def delete_model():
+    data = request.json
+    model_name = data.get("model_name")
+    user_email = data.get("email")
+    username = data.get("username")
+
+    # Check if the model exists in the custom_models list
+    model_index = next((i for i, m in enumerate(custom_models) if m["agent"].name == model_name.lower().replace(" ", "_")), None)
+    if model_index is not None:
+        # Remove the model from the custom_models list
+        custom_models.pop(model_index)
+
+        # Update the MongoDB collection to remove the model
+        users_collection.update_one(
+            {"email": user_email},
+            {"$pull": {"models": {"name": model_name}}},
+            upsert=True
+        )
+
+        models_collection.update_one(
+            {"username": username},
+            {"$pull": {"model": {"name": model_name}}},
+            upsert=True
+        )
+
+        return jsonify({"message": f"Model '{model_name}' deleted successfully!"}), 200
+    else:
+        return jsonify({"error": f"Model '{model_name}' not found in the custom models list."}), 404
 
 
 
