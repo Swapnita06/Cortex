@@ -39,7 +39,7 @@ const GroupChat = () => {
 
   const fetchChatHistory = () => {
     // Implement fetching chat history if needed
-    // Example:
+    // Example:-
     // axios.get(`http://localhost:5000/chat_history/${modelNames}`)
     //   .then(response => {
     //     setChatHistory(response.data.chatHistory);
@@ -111,7 +111,7 @@ const GroupChat = () => {
   };
 
   const formatModelNameForDisplay = (name) => {
-    return name.replace(/_/g, ' '); // Replace underscores with spaces
+    return name.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase()) ; // Replace underscores with spaces
   };
 
   const getModelIcon = (name) => {

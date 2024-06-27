@@ -86,7 +86,7 @@ const Chat = () => {
   };
 
   const formatModelNameForDisplay = (name) => {
-    return name.replace(/_/g, ' '); // Replace underscores with spaces
+    return name.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase()) ; // Replace underscores with spaces
   };
 
   const getModelIcon = (name) => {

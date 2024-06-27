@@ -26,6 +26,7 @@ import { TextField, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import Searchbar from './Searchbar';
 
 const Temp = () => {
   const [open, setOpen] = useState(false);
@@ -43,16 +44,35 @@ const Temp = () => {
     fetchModels();
   }, []);
 
+  // const fetchModels = () => {
+  //   axios.get('https://cortex-rnd0.onrender.com/models')
+  //     .then(response => {
+  //       const allModels = [ ...response.data.custom_models];
+  //       setModels(allModels);
+  //     })
+  //     .catch(error => {
+  //       console.error('There was an error fetching the models!', error);
+  //     });
+  // };
+
   const fetchModels = () => {
     axios.get('https://cortex-rnd0.onrender.com/models')
       .then(response => {
-        const allModels = [ ...response.data.custom_models];
+        // Remove underscores from custom model names and reverse the array to show latest first
+        const allModels = response.data.custom_models
+          .map(model => ({
+            ...model,
+            name: model.name.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())
+          }))
+          .reverse(); // Reverse the array
+  
         setModels(allModels);
       })
       .catch(error => {
         console.error('There was an error fetching the models!', error);
       });
   };
+  
 
   const handleOpen = (agent, creating = false) => {
     setCurrentAgent(agent);
@@ -74,6 +94,7 @@ const Temp = () => {
       .then(response => {
         console.log(response.data.message);
         fetchModels(); // Refresh models after creating a new one
+        alert("Model created Please check Playground")
       })
       .catch(error => {
         console.error('There was an error creating the agent!', error);
@@ -159,9 +180,10 @@ const Temp = () => {
   };
 
   return (
-    <div className='home'>
+    <div className={`home ${open ? 'blurry-background' : ''}`}>
       <div className='hidden-container'>sorry your device is incompatible...</div>
       <div className="container">
+        
         <div className="box1">
           <nav>
             <ul className="icon-list">
@@ -186,7 +208,7 @@ const Temp = () => {
                   </Tooltip>
                 </div>
                 <div className="list2" style={{ color: "gray", marginTop:"530px",position:"fixed"  }}>
-                  <Tooltip title="Announcements" placement="right">
+                  <Tooltip title="Playground" placement="right">
                   <li><Link to="/playground"><SmartToyIcon sx={{color:"gray",'&:hover': { color: 'white'}}}/></Link></li>
                   </Tooltip>
                   <Tooltip title="Account" placement="right">
@@ -202,6 +224,7 @@ const Temp = () => {
         <div className="fixed-header">
           <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white", textAlign:"center" }}>AI Playground</h1>
           <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" ,textAlign:'center'}}>Discover and engage with bespoke models crafted by creators worldwide.</h3>
+          <Searchbar/>
           </div>
           <div className="scrollable-content">
           <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>

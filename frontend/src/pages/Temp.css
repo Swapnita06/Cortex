@@ -246,3 +246,8 @@ transition: background-color 0.3s ease;
 .icon-link:hover {
   color: white;
 }
+
+.blurry-background {
+  filter: blur(5px);
+  transition: filter 0.8s ease-in-out;
+}
