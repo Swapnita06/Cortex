@@ -78,7 +78,9 @@ const Home = () => {
       .then(response => {
         console.log(response.data.message);
         toast.success('Agent created successfully! Find your agents in AI Playground!');
-        fetchModels(); // Refresh models after creating a new one
+        fetchModels(); 
+        console.log('Navigating to playground');
+        navigate('/playground');
       })
       .catch(error => {
         console.error('There was an error creating the agent!', error);
@@ -102,6 +104,7 @@ const Home = () => {
   //   setOpen(false);
   // };
 
+ 
   const handleChat = () => {
     const formatModelName = (name) => {
       return name.replace(/\s+/g, '_').toLowerCase();
@@ -389,6 +392,8 @@ const Home = () => {
             >
               {isCreating ? 'Create' : 'Chat'}
             </Button>
+
+            
           </Box>
         </Box>
       </Modal>
