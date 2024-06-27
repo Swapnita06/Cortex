@@ -57,6 +57,7 @@
   padding: 15px 0px;
   scale: 1.6;
   transition: all 0.3s ease; 
+  margin-bottom: 20px;
 }
 
 .icon-list li:hover {
