@@ -17,6 +17,7 @@ const Profile = () => {
   const [apiKey, setApiKey] = useState('');
   const [about, setAbout] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingApiKey, setIsEditingApiKey] = useState(false);
   const [customModels, setCustomModels] = useState([]);
 
   useEffect(() => {
@@ -43,14 +44,24 @@ const Profile = () => {
     setAbout(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmitAbout = () => {
     setIsEditing(false);
     toast.success('About section updated successfully!');
     // Save the about section to the server or database here
   };
 
-  const handleEdit = () => {
+  const handleEditAbout = () => {
     setIsEditing(true);
+  };
+
+  const handleSubmitApiKey = () => {
+    setIsEditingApiKey(false);
+    toast.success('API key updated successfully!');
+    // Save the API key to the server or database here
+  };
+
+  const handleEditApiKey = () => {
+    setIsEditingApiKey(true);
   };
 
   const handleLogout = () => {
@@ -68,15 +79,6 @@ const Profile = () => {
                 <Link to="/home">
                   <HomeOutlinedIcon sx={{ width: "40px", color: "gray", '&:hover': { color: 'white' } }} />
                 </Link>
-              </li>
-              <li onClick={() => toast.info('Create New Agent')}>
-                <AddCircleOutlineIcon />
-              </li>
-              <li onClick={() => toast.info('GROUP CHAT mode enabled')}>
-                <GroupAddOutlinedIcon />
-              </li>
-              <li onClick={() => toast.info('Start Group Chat')}>
-                <ChatOutlinedIcon />
               </li>
             </div>
             <div className="list2">
@@ -103,13 +105,29 @@ const Profile = () => {
               </div>
               <div className='api-key-section'>
                 <label htmlFor="apiKey">Enter your API key:</label>
-                <input
-                  type="password"
-                  id="apiKey"
-                  name="apiKey"
-                  value={apiKey}
-                  onChange={handleApiKeyChange}
-                />
+                {isEditingApiKey ? (
+                  <div>
+                    <input
+                      type="password"
+                      id="apiKey"
+                      name="apiKey"
+                      value={apiKey}
+                      onChange={handleApiKeyChange}
+                    />
+                    <button className='api-submit-btn' onClick={handleSubmitApiKey}>Submit</button>
+                  </div>
+                ) : (
+                  <div>
+                    <input
+                      type="password"
+                      id="apiKey"
+                      name="apiKey"
+                      value={apiKey}
+                      disabled
+                    />
+                    <button className='api-edit-btn' onClick={handleEditApiKey}>Edit</button>
+                  </div>
+                )}
                 <p>This API key can be used for accessing specific services or APIs.</p>
               </div>
               <div className='user-details'>
@@ -128,12 +146,12 @@ const Profile = () => {
                       onChange={handleAboutChange}
                       placeholder="Tell us about yourself..."
                     />
-                    <button className='about-submit-btn' onClick={handleSubmit}>Submit</button>
+                    <button className='about-submit-btn' onClick={handleSubmitAbout}>Submit</button>
                   </div>
                 ) : (
                   <div>
                     <p>{about}</p>
-                    <button className='about-edit-btn' onClick={handleEdit}>Edit</button>
+                    <button className='about-edit-btn' onClick={handleEditAbout}>Edit</button>
                   </div>
                 )}
               </div>
