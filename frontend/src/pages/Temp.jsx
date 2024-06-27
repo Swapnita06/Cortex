@@ -102,17 +102,22 @@ const Temp = () => {
 
  
   const handleCreate = () => {
-    axios.post('https://cortex-rnd0.onrender.com/create_model', currentAgent)
+    // Ensure email is included in the currentAgent object
+    const agentData = {
+      ...currentAgent,
+      email: user.email, // Assuming user.email is available from Auth0
+      username: user.name
+    };
+
+    axios.post('https://cortex-rnd0.onrender.com/create_model', agentData)
       .then(response => {
-        console.log(response.data.message);
         fetchModels(); // Refresh models after creating a new one
-       // alert("Model created Please check Playground")
-       toast.success('Agent created successfully! Find your agents in AI Playground!');
-       navigate('/playground');
+        toast.success('Agent created successfully! Find your agents in AI Playground!');
+        navigate('/playground');
       })
       .catch(error => {
-        console.error('There was an error creating the agent!', error);
-        toast.error('Error creating the agent.');
+        console.error('Error creating agent:', error);
+        toast.error('Failed to create agent.');
       });
 
     setOpen(false);
