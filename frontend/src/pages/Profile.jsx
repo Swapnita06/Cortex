@@ -28,15 +28,17 @@ const Profile = () => {
     }
   }, [isAuthenticated, user]);
 
-  const fetchCustomModels = (email) => {
-    axios.get(`https://cortex-rnd0.onrender.com/user_models?email=${email}`)
-    .then(response => {
-      setCustomModels(response.data.models);
-    })
-      .catch(error => {
-        console.error('There was an error fetching the custom models!', error);
+  const fetchCustomModels = async () => {
+    try {
+      const response = await axios.post('https://cortex-rnd0.onrender.com/user_models', {
+        email: user.email
       });
+      setCustomModels(response.data.models);
+    } catch (error) {
+      console.error('There was an error fetching the custom models!', error);
+    }
   };
+  
 
   const handleApiKeyChange = (event) => {
     setApiKey(event.target.value);
