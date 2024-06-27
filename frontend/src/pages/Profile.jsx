@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 import './Profile.css';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
-import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { ToastContainer, toast } from 'react-toastify';
@@ -23,6 +21,10 @@ const Profile = () => {
   useEffect(() => {
     if (isAuthenticated) {
       fetchCustomModels();
+      const storedAbout = localStorage.getItem('about');
+      if (storedAbout) {
+        setAbout(storedAbout);
+      }
     }
   }, [isAuthenticated]);
 
@@ -46,8 +48,8 @@ const Profile = () => {
 
   const handleSubmitAbout = () => {
     setIsEditing(false);
+    localStorage.setItem('about', about);
     toast.success('About section updated successfully!');
-    // Save the about section to the server or database here
   };
 
   const handleEditAbout = () => {
@@ -57,7 +59,6 @@ const Profile = () => {
   const handleSubmitApiKey = () => {
     setIsEditingApiKey(false);
     toast.success('API key updated successfully!');
-    // Save the API key to the server or database here
   };
 
   const handleEditApiKey = () => {
@@ -150,7 +151,7 @@ const Profile = () => {
                   </div>
                 ) : (
                   <div>
-                    <p>{about}</p>
+                    <ReactMarkdown>{about}</ReactMarkdown>
                     <button className='about-edit-btn' onClick={handleEditAbout}>Edit</button>
                   </div>
                 )}
