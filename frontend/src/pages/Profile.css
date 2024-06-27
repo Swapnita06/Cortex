@@ -29,11 +29,21 @@
   padding: 10px;
 }
 
+.icon-list .list1 {
+  top: 20px;
+  position: sticky;
+}
+
+.icon-list .list2 {
+  bottom: 20px;
+  position: sticky;
+}
+
 .profile-container {
   display: flex;
   flex: 1;
   padding: 20px;
-  margin-left: 60px;
+  margin-left: 80px; /* Adjusted for icon size */
 }
 
 .profile-details {
@@ -143,8 +153,8 @@
 }
 
 .logout-btn {
-  position: absolute;
-  bottom: 20px;
+  position: fixed;
+  top: 20px;
   right: 20px;
   padding: 10px 20px;
   background-color: transparent;
