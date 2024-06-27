@@ -11,38 +11,31 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
-  const { user, isAuthenticated, logout, getAccessTokenSilently } = useAuth0();
+  const { user, isAuthenticated, logout } = useAuth0();
   const [apiKey, setApiKey] = useState('');
   const [about, setAbout] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingApiKey, setIsEditingApiKey] = useState(false);
   const [customModels, setCustomModels] = useState([]);
-  const [currentAgent, setCurrentAgent] = useState({
-    name: '',
-    description: '',
-    goal: ''
-  });
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchCustomModels();
+    if (isAuthenticated && user && user.email) {
+      fetchCustomModels(user.email);
       const storedAbout = localStorage.getItem('about');
       if (storedAbout) {
         setAbout(storedAbout);
       }
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user]);
 
-  const fetchCustomModels = () => {
-    if (user && user.email) {
-      axios.get(`https://cortex-rnd0.onrender.com/user_models?email=${user.email}`)
-        .then(response => {
-          setCustomModels(response.data.models);
-        })
-        .catch(error => {
-          console.error('There was an error fetching the custom models!', error);
-        });
-    }
+  const fetchCustomModels = (email) => {
+    axios.get(`https://cortex-rnd0.onrender.com/user_models?email=${email}`)
+    .then(response => {
+      setCustomModels(response.data.models);
+    })
+      .catch(error => {
+        console.error('There was an error fetching the custom models!', error);
+      });
   };
 
   const handleApiKeyChange = (event) => {
@@ -84,35 +77,6 @@ const Profile = () => {
 
   const handleLogout = () => {
     logout({ returnTo: 'https://cortex-sable.vercel.app/' });
-  };
-
-  const handleCreate = async () => {
-    try {
-      const accessToken = await getAccessTokenSilently();
-      const response = await axios.post('https://cortex-rnd0.onrender.com/create_model', {
-        ...currentAgent,
-        email: user.email
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-
-      console.log(response.data.message);
-      toast.success('Agent created successfully! Find your agents in AI Playground!');
-      fetchCustomModels(); // Refresh models after creating a new one
-    } catch (error) {
-      console.error('There was an error creating the agent!', error);
-      toast.error('Error creating the agent.');
-    }
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setCurrentAgent(prevAgent => ({
-      ...prevAgent,
-      [name]: value
-    }));
   };
 
   return (
@@ -209,31 +173,6 @@ const Profile = () => {
                     <li key={index}>{model.name}</li>
                   ))}
                 </ul>
-              </div>
-              <div className='create-model-section'>
-                <h3>Create New Model</h3>
-                <div className='model-form'>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Model Name"
-                    value={currentAgent.name}
-                    onChange={handleInputChange}
-                  />
-                  <textarea
-                    name="description"
-                    placeholder="Model Description"
-                    value={currentAgent.description}
-                    onChange={handleInputChange}
-                  />
-                  <textarea
-                    name="goal"
-                    placeholder="System Goal"
-                    value={currentAgent.goal}
-                    onChange={handleInputChange}
-                  />
-                  <button className='create-model-btn' onClick={handleCreate}>Create Model</button>
-                </div>
               </div>
             </div>
           </div>
