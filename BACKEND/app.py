@@ -8,6 +8,21 @@ from flask_cors import CORS
 import autogen
 from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager, Agent
 
+from pymongo import MongoClient, ASCENDING
+
+# MongoDB connection
+MONGODB_URI = "mongodb+srv://mohanty4raj:lpuZjUPEGmGlBPFy@cluster0.fiaafld.mongodb.net/cortex?retryWrites=true&w=majority&appName=Cluster0"
+
+# Connect to MongoDB
+client = MongoClient(MONGODB_URI)
+
+# Access the 'cortex' database
+db = client.cortex
+
+# Access the 'users' collection
+users_collection = db.users
+
+
 app = Flask(__name__)
 CORS(app)
 
@@ -173,11 +188,45 @@ agents = {
 
 custom_models = []
 
+@app.route("/user", methods=["POST"])
+def create_user():
+    data = request.json
+    email = data.get("email")
+    username = data.get("username")
+
+    # Check if the user already exists in the MongoDB collection
+    existing_user = users_collection.find_one({"email": email})
+    if existing_user:
+        return jsonify({"error": f"User with email '{email}' already exists"}), 201
+    else:
+        # Insert the new user into the MongoDB collection
+        users_collection.insert_one({"email": email, "user_name": username, "models": []})
+        return jsonify({"message": f"User '{username}' with email '{email}' created successfully!"}), 201
+    
+    
+
 @app.route("/models", methods=["GET"])
 def get_all_models():
     predefined_models = [{"name": agent.name, "description": agent.description, "system_message": agent.system_message} for agent in agents.values()]
     custom_model_descriptions = [{"name": model["agent"].name, "description": model["agent"].description, "system_message": model["agent"].system_message} for model in custom_models]
     return jsonify({"predefined_models": predefined_models, "custom_models": custom_model_descriptions})
+
+@app.route("/user_models", methods=["POST"])
+def get_user_models():
+    data = request.json
+    user_email = data.get("email")
+
+    # Query the MongoDB collection to find models associated with the given email
+    user_document = users_collection.find_one({"email": user_email})
+    if not user_document:
+        return jsonify({"error": f"No models found for email '{user_email}'"}), 404
+
+    # Extract the models from the document and filter out unnecessary fields
+    models = user_document.get("models", [])
+    model_descriptions = [{"name": model["name"], "description": model["description"]} for model in models if isinstance(model, dict)]
+
+    return jsonify({"models": model_descriptions})
+
 
 @app.route("/create_model", methods=["POST"])
 def api_create_model():
@@ -185,13 +234,37 @@ def api_create_model():
     model_name = data.get("name")
     model_description = data.get("description")
     system_message = data.get("goal")
+    user_email = data.get("email")  # Assuming email is provided in the request
 
+    # Check if the model name already exists in predefined models or custom_models list
+    if agents.get(model_name.lower()) or any(model["agent"].name == model_name.lower().replace(" ", "_") for model in custom_models):
+        return jsonify({"error": f"Model '{model_name}' already exists in playground or as a predefined model."}), 400
+
+    # Create the new custom model
     custom_model = create_model(model_name, model_description, system_message)
     custom_models.append({
         "agent": custom_model,
-        "created_at": datetime.now()
+        "created_at": datetime.now(),
+        "email": user_email
     })
-    return jsonify({"message": f"Custom model '{model_name}' created successfully!"})
+
+    # Construct the dictionary representation of the custom_model
+    model_dict = {
+        "name": custom_model.name,
+        "description": custom_model.description,
+        "system_message": custom_model.system_message,
+        "created_at": datetime.now()  # Assuming you want to store the current timestamp
+    }
+
+    # Update the MongoDB collection with the new model
+    users_collection.update_one(
+        {"email": user_email},
+        {"$addToSet": {"models": model_dict}},
+        upsert=True
+    )
+
+    return jsonify({"message": f"Custom model '{model_name}' created successfully!"}), 200
+
 
 @app.route("/single_chat/<model_name>", methods=["POST"])
 def api_single_chat(model_name):
@@ -254,6 +327,33 @@ def api_group_chat():
         return jsonify({"responses": responses})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+from flask import request, jsonify
+
+@app.route("/update_api_key", methods=["POST"])
+def update_api_key():
+    data = request.json
+    user_email = data.get("email")
+    new_api_key = data.get("api_key")
+
+    # Check if the new_api_key is different from the current one
+    existing_user = users_collection.find_one({"email": user_email})
+    if existing_user and existing_user.get("api_key") == new_api_key:
+        return jsonify({"message": "New API key is the same as the current one. No update needed."}), 200
+
+    # Update the user's API key in MongoDB
+    result = users_collection.update_one(
+        {"email": user_email},
+        {"$set": {"api_key": new_api_key}}
+    )
+
+    if result.modified_count > 0:
+        return jsonify({"message": "API key updated successfully."}), 200
+    else:
+        return jsonify({"error": f"Failed to update API key for email '{user_email}'."}), 500
+
+
 
 # Function to remove expired custom models
 def remove_expired_models():
