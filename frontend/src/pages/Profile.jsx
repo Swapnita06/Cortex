@@ -7,6 +7,7 @@ import './Profile.css';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'; // Added Material-UI icon for delete
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -20,7 +21,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (isAuthenticated && user && user.email) {
-      fetchCustomModels(user.email);
+      fetchCustomModels();
       const storedAbout = localStorage.getItem('about');
       if (storedAbout) {
         setAbout(storedAbout);
@@ -38,7 +39,6 @@ const Profile = () => {
       console.error('There was an error fetching the custom models!', error);
     }
   };
-  
 
   const handleApiKeyChange = (event) => {
     setApiKey(event.target.value);
@@ -79,6 +79,21 @@ const Profile = () => {
 
   const handleLogout = () => {
     logout({ returnTo: 'https://cortex-sable.vercel.app/' });
+  };
+
+  const handleDeleteModel = async (modelName) => {
+    try {
+      const response = await axios.post('https://cortex-rnd0.onrender.com/delete_model', {
+        model_name: modelName,
+        email: user.email,
+        username: user.name // Assuming username is stored in user.nickname
+      });
+      toast.success(response.data.message);
+      fetchCustomModels(); // Refresh custom models after deletion
+    } catch (error) {
+      console.error('Error deleting model:', error.response.data.error);
+      toast.error(`Failed to delete model: ${error.response.data.error}`);
+    }
   };
 
   return (
@@ -172,7 +187,13 @@ const Profile = () => {
                 <h3>Your Custom Models</h3>
                 <ul>
                   {customModels.map((model, index) => (
-                    <li key={index}>{model.name}</li>
+                    <li key={index}>
+                      {model.name}
+                      <DeleteOutlineIcon
+                        style={{ marginLeft: '10px', cursor: 'pointer', color: 'red' }}
+                        onClick={() => handleDeleteModel(model.name)}
+                      />
+                    </li>
                   ))}
                 </ul>
               </div>
