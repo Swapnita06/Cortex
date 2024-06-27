@@ -95,7 +95,12 @@ const Home = () => {
   };
 
   const handleCreate = () => {
-    axios.post('https://cortex-rnd0.onrender.com/create_model', currentAgent)
+    const agentData = {
+      ...currentAgent,
+      email: user.email // Adding user's email to the agent data
+    };
+
+    axios.post('https://cortex-rnd0.onrender.com/create_model', agentData)
       .then(response => {
         console.log(response.data.message);
         toast.success('Agent created successfully! Find your agents in AI Playground!');
@@ -202,7 +207,7 @@ const Home = () => {
                     <li><Link to="/playground"><SmartToyIcon sx={{ color: "gray", '&:hover': { color: 'white' } }} /></Link></li>
                   </Tooltip>
                   <Tooltip title="Account" placement="right">
-                  <li><Link to="/profile"><AccountCircleOutlinedIcon sx={{ width: "40px", color: "gray", '&:hover': { color: 'white' } }} /></Link></li>
+                    <li><Link to="/profile"><AccountCircleOutlinedIcon sx={{ width: "40px", color: "gray", '&:hover': { color: 'white' } }} /></Link></li>
                   </Tooltip>
                 </div>
               </div>
@@ -219,7 +224,7 @@ const Home = () => {
           </div>
           <div className="scrollable-content">
             <div className="boxes" style={{ marginTop: "40px", paddingBottom: "40px" }}>
-              {models.map((model, index) => (
+            {models.map((model, index) => (
                 <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)}>
                   <FormControlLabel
                     control={
@@ -398,3 +403,4 @@ const Home = () => {
 };
 
 export default Home;
+
