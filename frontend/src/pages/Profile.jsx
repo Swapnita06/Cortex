@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Profile.css';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -16,11 +16,8 @@ const Profile = () => {
   const { user, isAuthenticated, logout } = useAuth0();
   const [apiKey, setApiKey] = useState('');
   const [about, setAbout] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
   const [customModels, setCustomModels] = useState([]);
-
-  const handleApiKeyChange = (event) => {
-    setApiKey(event.target.value);
-  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -38,8 +35,22 @@ const Profile = () => {
       });
   };
 
+  const handleApiKeyChange = (event) => {
+    setApiKey(event.target.value);
+  };
+
   const handleAboutChange = (event) => {
     setAbout(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    setIsEditing(false);
+    toast.success('About section updated successfully!');
+    // Save the about section to the server or database here
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
   };
 
   const handleLogout = () => {
@@ -52,7 +63,7 @@ const Profile = () => {
       <nav>
         <ul className="icon-list">
           <div className="list">
-            <div className="list1" style={{ color: "gray", position: "fixed" }}>
+            <div className="list1">
               <li>
                 <Link to="/home">
                   <HomeOutlinedIcon sx={{ width: "40px", color: "gray", '&:hover': { color: 'white' } }} />
@@ -68,7 +79,7 @@ const Profile = () => {
                 <ChatOutlinedIcon />
               </li>
             </div>
-            <div className="list2" style={{ color: "gray", marginTop: "530px", position: "fixed" }}>
+            <div className="list2">
               <li>
                 <Link to="/playground">
                   <SmartToyIcon sx={{ color: "gray", '&:hover': { color: 'white' } }} />
@@ -110,11 +121,21 @@ const Profile = () => {
             <div className='profile-right'>
               <div className='about-section'>
                 <h3>About</h3>
-                <textarea
-                  value={about}
-                  onChange={handleAboutChange}
-                  placeholder="Tell us about yourself..."
-                />
+                {isEditing ? (
+                  <div>
+                    <textarea
+                      value={about}
+                      onChange={handleAboutChange}
+                      placeholder="Tell us about yourself..."
+                    />
+                    <button className='about-submit-btn' onClick={handleSubmit}>Submit</button>
+                  </div>
+                ) : (
+                  <div>
+                    <p>{about}</p>
+                    <button className='about-edit-btn' onClick={handleEdit}>Edit</button>
+                  </div>
+                )}
               </div>
               <div className='custom-models-section'>
                 <h3>Your Custom Models</h3>
