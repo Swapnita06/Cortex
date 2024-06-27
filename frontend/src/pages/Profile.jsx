@@ -186,7 +186,7 @@ const Profile = () => {
               <div className='custom-models-section'>
                 <h3>Your Custom Models</h3>
                 <ul>
-                  {customModels.map((model, index) => (
+                  {customModels.slice().reverse().map((model, index) => (
                     <li key={index}>
                       {model.name}
                       <DeleteOutlineIcon
