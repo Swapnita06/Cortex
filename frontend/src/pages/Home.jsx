@@ -44,7 +44,10 @@ const Home = () => {
 
   useEffect(() => {
     fetchModels();
-  }, []);
+    if (isAuthenticated) {
+      createUser();
+    }
+  }, [isAuthenticated]);
 
   const fetchModels = () => {
     axios.get('https://cortex-rnd0.onrender.com/models')
@@ -54,6 +57,25 @@ const Home = () => {
       })
       .catch(error => {
         console.error('There was an error fetching the models!', error);
+      });
+  };
+
+  const createUser = () => {
+    const userData = {
+      email: user.email,
+      username: user.name
+    };
+
+    axios.post('https://cortex-rnd0.onrender.com/user', userData)
+      .then(response => {
+        console.log(response.data.message);
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 400) {
+          console.log(error.response.data.error);
+        } else {
+          console.error('There was an error creating the user!', error);
+        }
       });
   };
 

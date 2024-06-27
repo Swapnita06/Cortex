@@ -57,8 +57,18 @@ const Profile = () => {
   };
 
   const handleSubmitApiKey = () => {
-    setIsEditingApiKey(false);
-    toast.success('API key updated successfully!');
+    axios.post('https://cortex-rnd0.onrender.com/update_api_key', {
+      email: user.email,
+      api_key: apiKey
+    })
+    .then(response => {
+      toast.success('API key updated successfully!');
+      setIsEditingApiKey(false);
+    })
+    .catch(error => {
+      console.error('Error updating API key:', error);
+      toast.error('Failed to update API key.');
+    });
   };
 
   const handleEditApiKey = () => {
