@@ -40,7 +40,6 @@ const Home = () => {
   const [isGroupChat, setIsGroupChat] = useState(false);
 
   const { user, loginWithRedirect, logout, isLoading, error, isAuthenticated } = useAuth0();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,9 +77,7 @@ const Home = () => {
       .then(response => {
         console.log(response.data.message);
         toast.success('Agent created successfully! Find your agents in AI Playground!');
-        fetchModels(); 
-        console.log('Navigating to playground');
-        navigate('/playground');
+        fetchModels(); // Refresh models after creating a new one
       })
       .catch(error => {
         console.error('There was an error creating the agent!', error);
@@ -90,32 +87,15 @@ const Home = () => {
     setOpen(false);
   };
 
-  // const handleChat = () => {
-  //   if (isGroupChat) {
-  //     if (selectedModels.length === 0) {
-  //       alert('Please select at least one model for group chat.');
-  //       return;
-  //     }
-  //     const selectedModelNames = selectedModels.join(',');
-  //     navigate(`/group-chat/${selectedModelNames}`);
-  //   } else {
-  //     navigate(`/chat/${currentAgent.name}`);
-  //   }
-  //   setOpen(false);
-  // };
-
- 
   const handleChat = () => {
     const formatModelName = (name) => {
       return name.replace(/\s+/g, '_').toLowerCase();
     };
-  
+
     let modelNameToSend = formatModelName(currentAgent.name);
-  
+
     if (isGroupChat) {
-      
       if (selectedModels.length === 0) {
-        //alert('Please select at least one model for group chat.');
         toast.warn('Please select at least one model for group chat.');
         return;
       }
@@ -126,18 +106,15 @@ const Home = () => {
     }
     setOpen(false);
   };
-  
 
   const handleModelSelection = (modelName) => {
-    
     setSelectedModels((prevSelectedModels) => {
       if (prevSelectedModels.includes(modelName)) {
         return prevSelectedModels.filter((name) => name !== modelName);
-      } else if (prevSelectedModels.length < 3 ) {
+      } else if (prevSelectedModels.length < 3) {
         return [...prevSelectedModels, modelName];
       } else {
-        //alert('You can select up to 3 models for group chat.');
-        toast.warn('You can select only up to 3 models for group chat at a time.');
+        toast.warn('You can select up to 3 models for group chat.');
         return prevSelectedModels;
       }
     });
@@ -152,18 +129,17 @@ const Home = () => {
       case 'scientist':
         return <ScienceIcon style={{ color: 'white' }} />;
       case 'writer':
-          return <DrawIcon style={{ color: 'white' }} />;
+        return <DrawIcon style={{ color: 'white' }} />;
       case 'news editor':
-            return <NewspaperIcon style={{ color: 'white' }} />;
+        return <NewspaperIcon style={{ color: 'white' }} />;
       case 'wellness consultant':
         return <LocalHospitalIcon style={{ color: 'white' }} />;
       case 'event coordinator':
         return <EventIcon style={{ color: 'white' }} />;
       case 'travel coordinator':
-          return <ExploreIcon style={{ color: 'white' }} />;
+        return <ExploreIcon style={{ color: 'white' }} />;
       case 'creative content strategists':
-            return <FaceRetouchingNaturalIcon style={{ color: 'white' }} />;
-      // Add cases for other models as needed
+        return <FaceRetouchingNaturalIcon style={{ color: 'white' }} />;
       default:
         return null;
     }
@@ -172,38 +148,36 @@ const Home = () => {
   return (
     <div className={`home ${open ? 'blurry-background' : ''}`}>
       <ToastContainer />
-      <div className='hidden-container'>sorry your device is incompatible...</div>
+      <div className='hidden-container'>Sorry, your device is incompatible...</div>
       <div className="container">
         <div className="box1">
           <nav>
             <ul className="icon-list">
               <div className="list">
-                <div className="list1" style={{ color: "gray",position:"fixed" }}>
+                <div className="list1" style={{ color: "gray", position: "fixed" }}>
                   <Tooltip title="Home" placement="right">
-                  <li><Link to="/home"><HomeOutlinedIcon sx={{width:"40px", color:"gray",'&:hover': { color: 'white'}}} /></Link></li>
+                    <li><Link to="/home"><HomeOutlinedIcon sx={{ width: "40px", color: "gray", '&:hover': { color: 'white' } }} /></Link></li>
                   </Tooltip>
                   <Tooltip title="Create New Agent" placement="right">
                     <li onClick={() => handleOpen({ name: '', description: '', goal: '' }, true)}><AddCircleOutlineIcon /></li>
                   </Tooltip>
                   <Tooltip title="Group Chat" placement="right">
-                          <li onClick={() => {
-                            setIsGroupChat(!isGroupChat);
-                            //alert('GROUP CHAT mode enabled. Select the desired models and then click on Start Group Chat icon!');
-                            toast.info('GROUP CHAT mode enabled. Select the desired models and then click on START GROUP CHAT icon!');
-                            
-                          }}>
-                            <GroupAddOutlinedIcon />
-                          </li>
-                        </Tooltip>
-                        {isGroupChat && (
-                  <Tooltip title={isGroupChat ? 'Start Group Chat' : 'Chat'} placement="right">
-                    <li onClick={handleChat}><ChatOutlinedIcon /></li>
+                    <li onClick={() => {
+                      setIsGroupChat(!isGroupChat);
+                      toast.info('GROUP CHAT mode enabled. Select the desired models and then click on START GROUP CHAT icon!');
+                    }}>
+                      <GroupAddOutlinedIcon />
+                    </li>
                   </Tooltip>
+                  {isGroupChat && (
+                    <Tooltip title={isGroupChat ? 'Start Group Chat' : 'Chat'} placement="right">
+                      <li onClick={handleChat}><ChatOutlinedIcon /></li>
+                    </Tooltip>
                   )}
                 </div>
-                <div className="list2" style={{ color: "gray", marginTop:"530px",position:"fixed"  }}>
+                <div className="list2" style={{ color: "gray", marginTop: "530px", position: "fixed" }}>
                   <Tooltip title="Playground" placement="right">
-                    <li><Link to="/playground"><SmartToyIcon sx={{color:"gray",'&:hover': { color: 'white'}}}/></Link></li>
+                    <li><Link to="/playground"><SmartToyIcon sx={{ color: "gray", '&:hover': { color: 'white' } }} /></Link></li>
                   </Tooltip>
                   <Tooltip title="Account" placement="right">
                     <li><AccountCircleOutlinedIcon /></li>
@@ -215,56 +189,58 @@ const Home = () => {
         </div>
 
         <div className="box2" style={{ marginTop: "20px" }}>
-        <div className="fixed-header">
-          <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
-          <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" ,textAlign:'center'}}>Tailored Intelligence for every need.</h3>
+          <div className="fixed-header">
+            <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
+            <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white", textAlign: 'center' }}>Tailored Intelligence for Every Need</h3>
+            {isAuthenticated && (
+              <h4 className="user-name" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white", textAlign: 'center' }}>Welcome, {user.name}!</h4>
+            )}
           </div>
           <div className="scrollable-content">
-          <div className="boxes" style={{ marginTop: "40px", paddingBottom:"40px" }}>
-            {models.map((model, index) => (
-              <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)} >
-                <FormControlLabel
+            <div className="boxes" style={{ marginTop: "40px", paddingBottom: "40px" }}>
+              {models.map((model, index) => (
+                <div key={index} className={`agents ${selectedModels.includes(model.name) ? 'selected' : ''}`} onClick={() => !isGroupChat && handleOpen(model)}>
+                  <FormControlLabel
                     control={
                       <Checkbox
                         checked={selectedModels.includes(model.name)}
                         onChange={() => handleModelSelection(model.name)}
                         disabled={!isGroupChat && selectedModels.length > 0}
                         sx={{
-                          
-                           top:"53px", left:"205px"
+                          top: "53px", left: "220px"
                         }}
                       />
                     }
-                  label={
-                    <div className="agent-details" style={{marginLeft:"-30px"}}>
-                      <div className="agent-icon">
-                        {getAgentIcon(model.name)} {/* Function to get corresponding icon */}
+                    label={
+                      <div className="agent-details" style={{ marginLeft: "-30px" }}>
+                        <div className="agent-icon">
+                          {getAgentIcon(model.name)} {/* Function to get corresponding icon */}
+                        </div>
+                        <div className="agent-text" style={{ marginTop: "-15px", width: "200px" }}>
+                          <h3 style={{ color: 'white', fontFamily: "Manrope", fontWeight: "300" }}>{model.name}</h3>
+                          <p style={{ color: '#d0d0d0', marginTop: "-3px", fontFamily: "Montserrat", fontWeight: "200" }}>{model.description}</p>
+                        </div>
                       </div>
-                      <div className="agent-text" style={{marginTop:"-15px",width:"200px"}}>
-                        <h3 style={{ color: 'white',fontFamily:"Manrope",fontWeight:"300" }}>{model.name}</h3>
-                        <p style={{ color: '#d0d0d0', marginTop:"-3px",fontFamily:"Montserrat",fontWeight:"200" }}>{model.description}</p>
-                      </div>
-                    </div>
-                  }
-                />
-              </div>
-            ))}
+                    }
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
         <div className='box3'>
-        <button className='logout'
-          style={{
-            fontFamily: "Manrope", 
-          backgroundColor:"transparent", 
-          borderRadius:"10px",
-          border:"2px solid orange", 
-          padding:"10px", 
-          fontSize:"16px",
-          width: "110px",
-          marginLeft:"800px",
-          }}
-          onClick={() => logout({ returnTo:'https://cortex-sable.vercel.app/'})}>Logout</button>
+          <button className='logout'
+            style={{
+              fontFamily: "Manrope",
+              backgroundColor: "transparent",
+              borderRadius: "10px",
+              border: "2px solid orange",
+              padding: "10px",
+              fontSize: "16px",
+              width: "110px",
+              marginLeft: "800px",
+            }}
+            onClick={() => logout({ returnTo: 'https://cortex-sable.vercel.app/' })}>Logout</button>
         </div>
       </div>
 
@@ -276,9 +252,10 @@ const Home = () => {
       >
         <Box sx={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          width: 600, bgcolor: 'black', border: '1px solid gray', boxShadow: 24, p: 4, borderRadius: '5%', padding:"50px",
-          background: "rgba(12, 12, 12, 0.70)", backdropFilter: "blur(75px)"}}>
-          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily:"Manrope" }}>
+          width: 600, bgcolor: 'black', border: '1px solid gray', boxShadow: 24, p: 4, borderRadius: '5%', padding: "50px",
+          background: "rgba(12, 12, 12, 0.70)", backdropFilter: "blur(75px)"
+        }}>
+          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily: "Manrope" }}>
             Agent Name
           </Typography>
           <TextField
@@ -307,14 +284,14 @@ const Home = () => {
                 color: 'white',
               },
               '& .Mui-disabled': {
-      color: 'white !important',  
-      WebkitTextFillColor: 'white !important',  // Ensures compatibility across browsers
-    }
+                color: 'white !important',
+                WebkitTextFillColor: 'white !important',
+              }
             }}
             disabled={!isCreating} // Disable input if not creating
           />
 
-          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white' , fontFamily:"Manrope" }}>
+          <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily: "Manrope" }}>
             Agent Description
           </Typography>
           <TextField
@@ -343,16 +320,16 @@ const Home = () => {
                 color: 'white',
               },
               '& .Mui-disabled': {
-      color: 'white !important',  
-      WebkitTextFillColor: 'white !important',  // Ensures compatibility across browsers
-    }
+                color: 'white !important',
+                WebkitTextFillColor: 'white !important',
+              }
             }}
             disabled={!isCreating} // Disable input if not creating
           />
 
           {isCreating && (
             <>
-              <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily:"Manrope" }}>
+              <Typography variant="subtitle1" sx={{ mt: 2, color: 'white', fontFamily: "Manrope" }}>
                 Your Goal
               </Typography>
               <TextField
@@ -387,13 +364,11 @@ const Home = () => {
 
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
-              sx={{ mt: 2,bgcolor:"#0C0C0CB2", border:"1px solid orange", width:"120px", borderRadius:"10px",color:"white" }}
+              sx={{ mt: 2, bgcolor: "#0C0C0CB2", border: "1px solid orange", width: "120px", borderRadius: "10px", color: "white" }}
               onClick={isCreating ? handleCreate : handleChat}
             >
               {isCreating ? 'Create' : 'Chat'}
             </Button>
-
-            
           </Box>
         </Box>
       </Modal>
