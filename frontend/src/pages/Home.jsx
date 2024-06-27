@@ -97,7 +97,8 @@ const Home = () => {
   const handleCreate = () => {
     const agentData = {
       ...currentAgent,
-      email: user.email // Adding user's email to the agent data
+      email: user.email, // Adding user's email to the agent data
+      username: user.name
     };
 
     axios.post('https://cortex-rnd0.onrender.com/create_model', agentData)

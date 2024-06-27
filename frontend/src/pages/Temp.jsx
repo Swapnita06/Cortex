@@ -105,7 +105,8 @@ const Temp = () => {
     // Ensure email is included in the currentAgent object
     const agentData = {
       ...currentAgent,
-      email: user.email // Assuming user.email is available from Auth0
+      email: user.email, // Assuming user.email is available from Auth0
+      username: user.name
     };
 
     axios.post('https://cortex-rnd0.onrender.com/create_model', agentData)
