@@ -19,10 +19,10 @@ def load_config_list(config_file_path):
     return autogen.config_list_from_json(config_file_path)
 
 # Create an AssistantAgent model based on user input for name and description
-def create_model(name, description):
+def create_model(name, description, system_message):
     config_list = load_config_list(CONFIG_FILE_PATH)
     seed = 42
-
+    system_message = system_message or f"You are an {name}. Provide personalized assistance based on the user's needs and preferences."
     return autogen.AssistantAgent(
         name=name.lower().replace(" ", "_"),  # Replace spaces with underscores and convert to lowercase
         llm_config={
@@ -31,6 +31,7 @@ def create_model(name, description):
         },
         max_consecutive_auto_reply=10,
         description=description,
+        system_message=system_message,
     )
 
 # Initiate a single chat interaction with the selected agent
@@ -43,7 +44,7 @@ def initiate_single_chat(agent, message):
         description="I stand for the user.",
     )
 
-    groupchat = autogen.GroupChat(agents=[user_proxy, agent], messages=[], max_round=12)
+    groupchat = autogen.GroupChat(agents=[user_proxy, agent], messages=[], max_round=2)
     manager = autogen.GroupChatManager(
         groupchat=groupchat,
         llm_config=agent.llm_config,
@@ -106,67 +107,76 @@ def custom_speaker_selection_func(last_speaker: Agent, groupchat: autogen.GroupC
 agents = {
     "wellness_consultant": AssistantAgent(
         name="Wellness Consultant",
+        system_message="""You are a Wellness Consultant. Provide personalized wellness tips and recommendations based on the user's symptoms and health data. Offer detailed advice on nutrition, exercise, mental health, and lifestyle changes. If you need more information about the user's health history or current conditions, ask for those details.""",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
         description="Analyze the given symptoms and health data to provide personalized wellness tips and recommendations.",
     ),
     "investment_advisor": AssistantAgent(
         name="Investment Advisor",
-        system_message="Creative in software product ideas.",
+        system_message="""You are an Investment Advisor. Evaluate the user's financial data to offer insightful investment advice and risk assessments. Provide specific recommendations on asset allocation, portfolio diversification, and market trends. If you need additional information about the user's financial goals or risk tolerance, ask for those details.""",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
-        description="Evaluate the provided financial data to offer insightful investment advice and risk assessments",
+        description="Evaluate the provided financial data to offer insightful investment advice and risk assessments.",
     ),
     "scientist": AssistantAgent(
         name="Scientist",
+        system_message="""You are a Scientist. Conduct thorough research and analysis to provide scientifically proven solutions and strategies. Offer detailed explanations of scientific concepts, experimental designs, and data interpretation. If you need more information about the research question or data provided, ask for those details.""",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
-        description="Good at scientific research and analysis and providing scientifically proven solutions and strategies",
+        description="Good at scientific research and analysis and providing scientifically proven solutions and strategies.",
     ),
     "personal_trainer": AssistantAgent(
         name="Personal Trainer",
+        system_message="""You are a Personal Trainer. Create customized fitness routines and nutrition plans tailored to the user's health goals and preferences. Provide specific exercises, workout schedules, and dietary recommendations. If you need more information about the user's fitness level, goals, or dietary restrictions, ask for those details.""",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
         description="Create customized fitness routines and nutrition plans tailored to individual health goals and preferences.",
     ),
     "event_coordinator": AssistantAgent(
         name="Event Coordinator",
+        system_message="""You are an Event Coordinator. Organize and manage events, including logistics, coordination, and execution, to ensure a seamless and memorable experience. Provide detailed plans for event timelines, vendor management, and contingency plans. If you need more information about the event's scope or requirements, ask for those details.""",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
         description="Organize and manage events, including logistics, coordination, and execution, to ensure a seamless and memorable experience.",
     ),
     "writer": AssistantAgent(
         name="Writer",
+        system_message="""You are a Writer. Channel your creativity and insight to craft compelling narratives and use words to evoke emotions and transport readers into new worlds. Provide detailed feedback on writing style, structure, and content. If you need more information about the topic or audience, ask for those details.""",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
-        description="Channels creativity and insight to craft compelling narratives and use words to evoke emotions and transport readers into new worlds.",
+        description="Channel creativity and insight to craft compelling narratives and use words to evoke emotions and transport readers into new worlds.",
     ),
     "travel_coordinator": AssistantAgent(
         name="Travel Coordinator",
+        system_message="""You are a Travel Coordinator. Plan and organize travel itineraries, including accommodations and activities, to create optimal travel experiences. Provide detailed recommendations for destinations, transportation, and local attractions. If you need more information about the user's travel preferences or budget, ask for those details.""",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
-        description="Plan and organize travel itineraries, including accommodations and activities,to create optimal travel experiences.",
+        description="Plan and organize travel itineraries, including accommodations and activities, to create optimal travel experiences.",
     ),
-    "creative_content_strategists": AssistantAgent(
-        name="Creative Content Strategists",
+    "creative_content_strategist": AssistantAgent(
+        name="Creative Content Strategist",
+        system_message="""You are a Creative Content Strategist. Generate creative and innovative content ideas and strategies suitable for various media platforms. Provide detailed plans for content creation, marketing campaigns, and audience engagement. If you need more information about the target audience or brand guidelines, ask for those details.""",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
         description="Generate creative and innovative content ideas and strategies suitable for various media platforms.",
     ),
     "news_editor": AssistantAgent(
         name="News Editor",
+        system_message="""You are a News Editor. Summarize and present the latest news stories in an engaging and informative manner. Provide detailed analysis of news events, editorial insights, and context. If you need more information about the news topic or audience preferences, ask for those details.""",
         llm_config={"config_list": load_config_list(CONFIG_FILE_PATH), "seed": 42},
         max_consecutive_auto_reply=10,
         description="Summarize and present the latest news stories in an engaging and informative manner.",
     ),
 }
 
+
 custom_models = []
 
 @app.route("/models", methods=["GET"])
 def get_all_models():
-    predefined_models = [{"name": agent.name, "description": agent.description} for agent in agents.values()]
-    custom_model_descriptions = [{"name": model["agent"].name, "description": model["agent"].description} for model in custom_models]
+    predefined_models = [{"name": agent.name, "description": agent.description, "system_message": agent.system_message} for agent in agents.values()]
+    custom_model_descriptions = [{"name": model["agent"].name, "description": model["agent"].description, "system_message": model["agent"].system_message} for model in custom_models]
     return jsonify({"predefined_models": predefined_models, "custom_models": custom_model_descriptions})
 
 @app.route("/create_model", methods=["POST"])
@@ -174,8 +184,9 @@ def api_create_model():
     data = request.json
     model_name = data.get("name")
     model_description = data.get("description")
+    system_message = data.get("goal")
 
-    custom_model = create_model(model_name, model_description)
+    custom_model = create_model(model_name, model_description, system_message)
     custom_models.append({
         "agent": custom_model,
         "created_at": datetime.now()
