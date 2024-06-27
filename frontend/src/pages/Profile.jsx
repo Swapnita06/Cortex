@@ -17,16 +17,18 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingApiKey, setIsEditingApiKey] = useState(false);
   const [customModels, setCustomModels] = useState([]);
+  const [userModels, setUserModels] = useState([]);
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchCustomModels();
+      fetchUserModels(user.email); // Fetch user models when authenticated
       const storedAbout = localStorage.getItem('about');
       if (storedAbout) {
         setAbout(storedAbout);
       }
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user.email]);
 
   const fetchCustomModels = () => {
     axios.get('https://cortex-rnd0.onrender.com/user_models')
@@ -35,6 +37,16 @@ const Profile = () => {
       })
       .catch(error => {
         console.error('There was an error fetching the custom models!', error);
+      });
+  };
+
+  const fetchUserModels = (email) => {
+    axios.post('https://cortex-rnd0.onrender.com/user_models', { email })
+      .then(response => {
+        setUserModels(response.data.models);
+      })
+      .catch(error => {
+        console.error('Error fetching user models:', error);
       });
   };
 
@@ -171,6 +183,17 @@ const Profile = () => {
                 <ul>
                   {customModels.map((model, index) => (
                     <li key={index}>{model.name}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className='user-models-section'>
+                <h3>Your User Models</h3>
+                <ul>
+                  {userModels.map((model, index) => (
+                    <li key={index}>
+                      <strong>Name:</strong> {model.name}<br />
+                      <strong>Description:</strong> {model.description}
+                    </li>
                   ))}
                 </ul>
               </div>
