@@ -248,7 +248,7 @@ const Temp = () => {
                   <li><Link to="/playground"><SmartToyIcon sx={{color:"gray",'&:hover': { color: 'white'}}}/></Link></li>
                   </Tooltip>
                   <Tooltip title="Account" placement="right">
-                    <li><AccountCircleOutlinedIcon /></li>
+                  <li><Link to="/profile"><AccountCircleOutlinedIcon sx={{ width: "40px", color: "gray", '&:hover': { color: 'white' } }} /></Link></li>
                   </Tooltip>
                 </div>
               </div>
