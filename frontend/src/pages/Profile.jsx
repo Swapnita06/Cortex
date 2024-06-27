@@ -57,7 +57,7 @@ const Profile = () => {
   };
 
   const handleSubmitApiKey = () => {
-    axios.post('https://your-api-url.com/update_api_key', {
+    axios.post('https://cortex-rnd0.onrender.com/update_api_key', {
       email: user.email,
       api_key: apiKey
     })
