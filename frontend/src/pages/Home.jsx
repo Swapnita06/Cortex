@@ -180,7 +180,7 @@ const Home = () => {
                     <li><Link to="/playground"><SmartToyIcon sx={{ color: "gray", '&:hover': { color: 'white' } }} /></Link></li>
                   </Tooltip>
                   <Tooltip title="Account" placement="right">
-                    <li><AccountCircleOutlinedIcon /></li>
+                  <li><Link to="/profile"><AccountCircleOutlinedIcon sx={{ width: "40px", color: "gray", '&:hover': { color: 'white' } }} /></Link></li>
                   </Tooltip>
                 </div>
               </div>
@@ -191,9 +191,8 @@ const Home = () => {
         <div className="box2" style={{ marginTop: "20px" }}>
           <div className="fixed-header">
             <h1 className="main-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white" }}>Discover Your Perfect AI Companion</h1>
-            <h3 className="sub-title" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white", textAlign: 'center' }}>Tailored Intelligence for Every Need</h3>
             {isAuthenticated && (
-              <h4 className="user-name" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white", textAlign: 'center' }}>Welcome, {user.name}!</h4>
+              <h3 className="user-name" style={{ fontFamily: "Manrope", fontWeight: "400", color: "white", textAlign: 'center' }}>Welcome, {user.name}!</h3>
             )}
           </div>
           <div className="scrollable-content">
