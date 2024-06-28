@@ -139,9 +139,10 @@
 }
 
 .custom-models-section ul{
-  max-height: 400px; /* Adjust the height as needed */
+  max-height: 300px; /* Adjust the height as needed */
   overflow-y: scroll;
   padding-right: 10px; /* To avoid cutting off the scrollbar */
+  margin-bottom: 20px;
 }
 
 .custom-models-section ul::-webkit-scrollbar {
