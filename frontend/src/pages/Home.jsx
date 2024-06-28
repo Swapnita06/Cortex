@@ -106,6 +106,7 @@ const Home = () => {
         console.log(response.data.message);
         toast.success('Agent created successfully! Find your agents in AI Playground!');
         fetchModels(); // Refresh models after creating a new one
+        navigate('/playground');
       })
       .catch(error => {
         console.error('There was an error creating the agent!', error);
