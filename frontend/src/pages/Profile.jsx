@@ -11,7 +11,6 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import './Profile.css';
 
 const Profile = () => {
@@ -23,6 +22,8 @@ const Profile = () => {
   const [customModels, setCustomModels] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentModel, setCurrentModel] = useState({ name: '', description: '' });
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (isAuthenticated && user && user.email) {
