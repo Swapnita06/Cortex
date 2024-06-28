@@ -409,6 +409,7 @@ def remove_expired_models():
 # Start the background thread to remove expired models
 threading.Thread(target=remove_expired_models, daemon=True).start()
 
+# Run the Flask app
 if __name__ == "__main__":
     for model_data in models_collection.find():
         name = model_data["model_name"]
