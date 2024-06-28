@@ -138,23 +138,29 @@
   cursor: pointer;
 }
 
-.custom-models-section {
+.custom-models-section ul{
   max-height: 400px; /* Adjust the height as needed */
-  overflow-y: auto;
+  overflow-y: scroll;
   padding-right: 10px; /* To avoid cutting off the scrollbar */
 }
 
-.custom-models-section::-webkit-scrollbar {
-  width: 8px;
+.custom-models-section ul::-webkit-scrollbar {
+  /* width: 8px; */
+  display: none;
 }
 
-.custom-models-section::-webkit-scrollbar-thumb {
+/* .custom-models-section ul::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 4px;
 }
 
-.custom-models-section::-webkit-scrollbar-thumb:hover {
+.custom-models-section ul::-webkit-scrollbar-thumb:hover {
   background-color: #555;
+} */
+
+.custom-models-section ul {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .custom-models-section h3 {
