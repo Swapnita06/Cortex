@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
-import { Modal, Box, Typography, TextField, Button } from '@mui/material';
+import { Modal, Box, Typography, Button } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
@@ -90,7 +90,7 @@ const Profile = () => {
       const response = await axios.post('https://cortex-rnd0.onrender.com/delete_model', {
         model_name: modelName,
         email: user.email,
-        username: user.name 
+        username: user.name
       });
       toast.success(response.data.message);
       fetchCustomModels(); // Refresh custom models after deletion
@@ -118,6 +118,10 @@ const Profile = () => {
     navigate(`/chat/${modelNameToSend}`);
     toast.info(`Initiating chat with ${modelName}`);
     setOpen(false);
+  };
+
+  const formatModelName = (name) => {
+    return name.replace(/\b\w/g, char => char.toUpperCase());
   };
 
   return (
@@ -211,8 +215,8 @@ const Profile = () => {
                 <h3>Your Custom Models</h3>
                 <ul>
                   {customModels.slice().reverse().map((model, index) => (
-                    <li key={index}>
-                      {model.name}
+                    <li key={index} className="model-item">
+                      <span>{formatModelName(model.name)}</span>
                       <DeleteOutlineIcon
                         style={{ marginLeft: '10px', cursor: 'pointer', color: 'red' }}
                         onClick={() => handleDeleteModel(model.name)}
