@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
@@ -8,7 +8,6 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Profile.css';
@@ -23,7 +22,6 @@ const Profile = () => {
   const [open, setOpen] = useState(false);
   const [currentModel, setCurrentModel] = useState({ name: '', description: '' });
   const navigate = useNavigate();
-
 
   useEffect(() => {
     if (isAuthenticated && user && user.email) {
@@ -92,7 +90,7 @@ const Profile = () => {
       const response = await axios.post('https://cortex-rnd0.onrender.com/delete_model', {
         model_name: modelName,
         email: user.email,
-        username: user.name // Assuming username is stored in user.nickname
+        username: user.name 
       });
       toast.success(response.data.message);
       fetchCustomModels(); // Refresh custom models after deletion
