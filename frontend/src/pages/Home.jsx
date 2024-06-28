@@ -104,8 +104,8 @@ const Home = () => {
     axios.post('https://cortex-rnd0.onrender.com/create_model', agentData)
       .then(response => {
         console.log(response.data.message);
-        toast.success('Agent created successfully! Find your agents in AI Playground!');
         fetchModels(); // Refresh models after creating a new one
+        toast.success('Agent created successfully! Find your agents in AI Playground!');
         navigate('/playground');
       })
       .catch(error => {
