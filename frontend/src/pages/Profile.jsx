@@ -170,7 +170,7 @@ const Profile = () => {
                       value={apiKey}
                       onChange={handleApiKeyChange}
                     />
-                    <button className='styled-button' onClick={handleSubmitApiKey}>Submit</button>
+                    <button className='api-submit-btn' onClick={handleSubmitApiKey}>Submit</button>
                   </div>
                 ) : (
                   <div>
@@ -181,7 +181,7 @@ const Profile = () => {
                       value={apiKey}
                       disabled
                     />
-                    <button className='styled-button' onClick={handleEditApiKey}>Edit</button>
+                    <button className='api-edit-btn' onClick={handleEditApiKey}>Edit</button>
                   </div>
                 )}
                 <p>This API key can be used for accessing specific services or APIs.</p>
@@ -202,12 +202,12 @@ const Profile = () => {
                       onChange={handleAboutChange}
                       placeholder="Tell us about yourself..."
                     />
-                    <button className='styled-button' onClick={handleSubmitAbout}>Submit</button>
+                    <button className='about-submit-btn' onClick={handleSubmitAbout}>Submit</button>
                   </div>
                 ) : (
                   <div>
                     <ReactMarkdown>{about}</ReactMarkdown>
-                    <button className='styled-button' onClick={handleEditAbout}>Edit</button>
+                    <button className='about-edit-btn' onClick={handleEditAbout}>Edit</button>
                   </div>
                 )}
               </div>
@@ -221,7 +221,7 @@ const Profile = () => {
                         style={{ marginLeft: '10px', cursor: 'pointer', color: 'red' }}
                         onClick={() => handleDeleteModel(model.name)}
                       />
-                      <button className='styled-button' onClick={() => handleOpenModal(model)}>Chat</button>
+                      <Button onClick={() => handleOpenModal(model)}>Chat</Button>
                     </li>
                   ))}
                 </ul>
@@ -250,14 +250,13 @@ const Profile = () => {
             {currentModel.description}
           </Typography>
           <Button
-            className='styled-button'
+            sx={{ mt: 2, bgcolor: "#0C0C0CB2", border: "1px solid orange", width: "120px", borderRadius: "10px", color: "white" }}
             onClick={() => handleChat(currentModel.name)}
           >
             Start Chat
           </Button>
           <Button
-            className='styled-button'
-            sx={{ marginLeft: '10px' }}
+            sx={{ mt: 2, bgcolor: "transparent", border: "1px solid white", width: "120px", borderRadius: "10px", color: "white", marginLeft: "5px" }}
             onClick={handleCloseModal}
           >
             Close
