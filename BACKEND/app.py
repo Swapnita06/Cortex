@@ -252,11 +252,6 @@ def api_create_model():
         "email": user_email
     })
 
-    models_collection.insert_one(
-        {"username": username,},
-        {"$addToSet": {"model": custom_model}},
-    )
-
     # Construct the dictionary representation of the custom_model
     model_dict = {
         "name": custom_model.name,
@@ -264,6 +259,17 @@ def api_create_model():
         "system_message": custom_model.system_message,
         "created_at": datetime.now()  # Assuming you want to store the current timestamp
     }
+
+    models_collection.insert_one(
+        {"username": username,
+        "email": user_email,
+        "model_name": model_name,
+        "description": model_description,
+        "system_message": system_message,
+        "created_at": datetime.now()
+        }
+
+    )
 
     # Update the MongoDB collection with the new model
     users_collection.update_one(
@@ -332,7 +338,6 @@ def api_group_chat():
         
         # Collect responses directly from the groupchat messages
         responses = [msg["content"] for msg in groupchat.messages]
-        print(responses)
         return jsonify({"responses": responses})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -405,4 +410,16 @@ def remove_expired_models():
 threading.Thread(target=remove_expired_models, daemon=True).start()
 
 if __name__ == "__main__":
+    for model_data in models_collection.find():
+        name = model_data["model_name"]
+        user_email = model_data["email"]
+        description = model_data["description"]
+        system_message = model_data.get("system_message")
+        custom_model = create_model(name, description, system_message)
+        custom_models.append({
+            "agent": custom_model,
+            "created_at": datetime.now(),
+            "email": user_email
+        })
+
     app.run(debug=False, host='0.0.0.0', port=5000)
