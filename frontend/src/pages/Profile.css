@@ -142,12 +142,12 @@
   max-height: 300px; /* Adjust the height as needed */
   overflow-y: scroll;
   padding-right: 10px; /* To avoid cutting off the scrollbar */
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .custom-models-section ul::-webkit-scrollbar {
-  /* width: 8px; */
-  display: none;
+   /* width: 8px;  */
+ display: none;
 }
 
 /* .custom-models-section ul::-webkit-scrollbar-thumb {
