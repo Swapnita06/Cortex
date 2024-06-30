@@ -370,12 +370,12 @@ def update_api_key():
 @app.route("/delete_model", methods=["POST"])
 def delete_model():
     data = request.json
-    model_name = data.get("model_name")
+    model_name = data.get("model_name").lower().replace(" ", "_")
     user_email = data.get("email")
     username = data.get("username")
 
     # Check if the model exists in the custom_models list
-    model_index = next((i for i, m in enumerate(custom_models) if m["agent"].name == model_name.lower().replace(" ", "_")), None)
+    model_index = next((i for i, m in enumerate(custom_models) if m["agent"].name == model_name), None)
     if model_index is not None:
         # Remove the model from the custom_models list
         custom_models.pop(model_index)
@@ -387,15 +387,16 @@ def delete_model():
             upsert=True
         )
 
-        models_collection.update_one(
-            {"username": username},
-            {"$pull": {"model": {"name": model_name}}},
-            upsert=True
-        )
+        models_collection.delete_one({
+            "username": username,
+            "email": user_email,
+            "model_name": model_name
+        })
 
         return jsonify({"message": f"Model '{model_name}' deleted successfully!"}), 200
     else:
         return jsonify({"error": f"Model '{model_name}' not found in the custom models list."}), 404
+
 
 
 
@@ -412,7 +413,7 @@ threading.Thread(target=remove_expired_models, daemon=True).start()
 # Run the Flask app
 if __name__ == "__main__":
     for model_data in models_collection.find():
-        name = model_data["model_name"]
+        name = model_data["model_name"].lower().replace(" ", "_")
         user_email = model_data["email"]
         description = model_data["description"]
         system_message = model_data.get("system_message")
@@ -424,3 +425,4 @@ if __name__ == "__main__":
         })
 
     app.run(debug=False, host='0.0.0.0', port=5000)
+
